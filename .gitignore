@@ -1,0 +1,28 @@
+# Python files
+__pycache*
+.ipynb_*
+
+# Matlab folders
+Matfiles/
+
+# Image files
+*.png
+*.eps
+*.ai
+*.jpg
+*.jpeg
+*.emf
+
+# Other files
+*.ppt
+*.pptx
+*.xls
+*.ini
+*.fig
+*.rar
+*.pdf
+*.PDF
+
+# VSCODE
+.vscode*
+.vscode/
