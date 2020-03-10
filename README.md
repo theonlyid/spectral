@@ -1,14 +1,12 @@
-## Branch: epics/spectralcontrasting
-
 # Spectral Contrasting for LFP analysis
 
-### What is this branch for?
+### What is this repo for?
 
 For developing code to contrast LFP frequencies between various brain-states obtained from fMRI analysis.
 
 ### How do I get up and running?
 
-The package uses python/cython as a computation backend, and makes the methods and variables MATLAB compatible. 
+The package uses python/cython as a computation backend, and makes the methods and variables MATLAB compatible.
 
 #### Make sure you have [Anaconda 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) and [Matlab R2019b](http://www.mathworks.com/) installed
 
@@ -24,7 +22,6 @@ Setup Instructions:
 
 ```matlab
 >> sc = py.importlib.import_module("src.spectral.contrast");
-
 >> sc.test()
 True
 ```
@@ -33,4 +30,4 @@ If all this is a (miraculous) success, you can refer to the [documentation](/doc
 
 Good luck!
 
-##### Branch maintained by [Ali Zaidi](mailto:ali.zaidi@tuebingen.mpg.de)
+##### maintained by [Ali Zaidi](mailto:ali.zaidi@tuebingen.mpg.de)
