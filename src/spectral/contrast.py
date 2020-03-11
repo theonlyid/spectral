@@ -1,5 +1,5 @@
 """ 
-A module for analysis using the spectral decomposition of timeseries data.
+A module for timeseries analysis using the spectral decomposition of data.
 
 Version 1.0;
 Author: Ali Zaidi

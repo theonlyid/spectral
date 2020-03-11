@@ -21,7 +21,24 @@
 </header>
 <section id="section-intro">
 <p>Spectral Contrasting</p>
-<p>A module for contrasting the spectral power across timeseries data</p>
+<p>A library for analysing timeseries data, specifically for neural event identification, detection and classification.</p>
+<p>Consists of three submodules, which can be used either independently or together:</p>
+<ol>
+<li>
+<p>Contrast:
+This module enables the contrasting between two categories of timeseries data (with multiple trials per category).
+This enables the identification of the frequency bins that have the most differnce between the categories.</p>
+</li>
+<li>
+<p>Cluster:
+This module enables the clustering of the timeseries data based on the similarity of it's spectral decomposition using STFT.
+It finds the optimal number of clusters and returns a vector with labels of which class each STFT segment belongs to.</p>
+</li>
+<li>
+<p>Classify:
+This module provides code to train classifiers for classifying timeseries data based on the clusters identified using the <a title="spectral.cluster" href="cluster.html"><code>spectral.cluster</code></a> module.</p>
+</li>
+</ol>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -29,7 +46,20 @@
 <pre><code class="python">&#34;&#34;&#34;
 Spectral Contrasting
 
-A module for contrasting the spectral power across timeseries data
+A library for analysing timeseries data, specifically for neural event identification, detection and classification.
+
+Consists of three submodules, which can be used either independently or together:
+
+1. Contrast:
+    This module enables the contrasting between two categories of timeseries data (with multiple trials per category).
+    This enables the identification of the frequency bins that have the most differnce between the categories.
+
+2. Cluster:
+    This module enables the clustering of the timeseries data based on the similarity of it&#39;s spectral decomposition using STFT.
+    It finds the optimal number of clusters and returns a vector with labels of which class each STFT segment belongs to.
+    
+3. Classify:
+    This module provides code to train classifiers for classifying timeseries data based on the clusters identified using the `spectral.cluster` module.
 &#34;&#34;&#34;</code></pre>
 </details>
 </section>
@@ -38,11 +68,15 @@ A module for contrasting the spectral power across timeseries data
 <dl>
 <dt><code class="name"><a title="spectral.classify" href="classify.html">spectral.classify</a></code></dt>
 <dd>
-<section class="desc"><p>UNDER CONSTRUCTION …</p></section>
+<section class="desc"><p>Contains code for classifying timeseries data based on their spectral signatures.</p></section>
+</dd>
+<dt><code class="name"><a title="spectral.cluster" href="cluster.html">spectral.cluster</a></code></dt>
+<dd>
+<section class="desc"><p>Module for clustering timeseries data based on their spectral properties …</p></section>
 </dd>
 <dt><code class="name"><a title="spectral.contrast" href="contrast.html">spectral.contrast</a></code></dt>
 <dd>
-<section class="desc"><p>A module for analysis using the spectral decomposition of timeseries data …</p></section>
+<section class="desc"><p>A module for timeseries analysis using the spectral decomposition of data …</p></section>
 </dd>
 </dl>
 </section>
@@ -62,6 +96,7 @@ A module for contrasting the spectral power across timeseries data
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
 <li><code><a title="spectral.classify" href="classify.html">spectral.classify</a></code></li>
+<li><code><a title="spectral.cluster" href="cluster.html">spectral.cluster</a></code></li>
 <li><code><a title="spectral.contrast" href="contrast.html">spectral.contrast</a></code></li>
 </ul>
 </li>

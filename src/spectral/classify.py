@@ -1,7 +1,5 @@
 """
-UNDER CONSTRUCTION
-
-This module will eventually contain code for classifying timeseries data based on their spectral signatures.
+Contains code for classifying timeseries data based on their spectral signatures.
 """
 
 import sklearn
