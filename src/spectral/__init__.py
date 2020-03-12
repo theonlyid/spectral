@@ -15,4 +15,8 @@ Consists of three submodules, which can be used either independently or together
     
 3. Classify:
     This module provides code to train classifiers for classifying timeseries data based on the clusters identified using the `spectral.cluster` module.
+
+Author: Ali Zaidi
+
+Version 0.1
 """

@@ -1,8 +1,6 @@
 """
 Module for clustering timeseries data based on their spectral properties.
 
-Author: Ali Zaidi
-
 This module enables the clustering of STFT transformed data
 by mapping the STFT arrays to a low dimensional manifold and then clustering them using DBSCAN.
 
@@ -122,7 +120,7 @@ def cluster(data, **kwargs):
         if ncl[-1] <= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calinski_harabasz_score(data, labels))
+            res = np.append(res, calinski_harabaz_score(data, labels))
 
     nclust = np.unique(ncl)
     

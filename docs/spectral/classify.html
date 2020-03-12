@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.2" />
 <title>spectral.classify API documentation</title>
-<meta name="description" content="Contains code for classifying timeseries data based on their spectral signatures." />
+<meta name="description" content="Module for classifying timeseries data based on their spectral properties …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,13 +20,23 @@
 <h1 class="title">Module <code>spectral.classify</code></h1>
 </header>
 <section id="section-intro">
-<p>Contains code for classifying timeseries data based on their spectral signatures.</p>
+<p>Module for classifying timeseries data based on their spectral properties.</p>
+<p>This module enables the classification of STFT transformed data
+by training an SVM classifier.</p>
+<p>This facilitates the identification of various events (defined as transient spatio-temporal patterns of activity)
+present within the timeseries data, that have been identified.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-Contains code for classifying timeseries data based on their spectral signatures.
+Module for classifying timeseries data based on their spectral properties.
+
+This module enables the classification of STFT transformed data
+by training an SVM classifier.
+
+This facilitates the identification of various events (defined as transient spatio-temporal patterns of activity)
+present within the timeseries data, that have been identified.
 &#34;&#34;&#34;
 
 import sklearn

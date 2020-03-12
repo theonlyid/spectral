@@ -21,7 +21,6 @@
 </header>
 <section id="section-intro">
 <p>Module for clustering timeseries data based on their spectral properties.</p>
-<p>Author: Ali Zaidi</p>
 <p>This module enables the clustering of STFT transformed data
 by mapping the STFT arrays to a low dimensional manifold and then clustering them using DBSCAN.</p>
 <p>This facilitates the identification of various events (defined as transient spatio-temporal patterns of activity) present within the timeseries data.</p>
@@ -31,8 +30,6 @@ by mapping the STFT arrays to a low dimensional manifold and then clustering the
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
 Module for clustering timeseries data based on their spectral properties.
-
-Author: Ali Zaidi
 
 This module enables the clustering of STFT transformed data
 by mapping the STFT arrays to a low dimensional manifold and then clustering them using DBSCAN.
@@ -153,7 +150,7 @@ def cluster(data, **kwargs):
         if ncl[-1] &lt;= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calinski_harabasz_score(data, labels))
+            res = np.append(res, calinski_harabaz_score(data, labels))
 
     nclust = np.unique(ncl)
     
@@ -222,7 +219,7 @@ def cluster(data, **kwargs):
         if ncl[-1] &lt;= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calinski_harabasz_score(data, labels))
+            res = np.append(res, calinski_harabaz_score(data, labels))
 
     nclust = np.unique(ncl)
     

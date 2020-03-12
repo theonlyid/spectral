@@ -87,3 +87,21 @@ filt_data = sc.filter(data, bandstart, bandstop, fs)
 ```
 
 This will return a matrix with the shape of the original data but band-pass filtered within the frequency range desirable for further analysis.
+
+## Appendix
+
+### Appendix 1: Mathematical background
+
+#### 1.1 Spectral Contrasting
+
+We're interested in contrasting the frequencies across two timeseries.
+
+$$ \bm{X_{k, r} (m,\omega)  = \sum_{ -\infty }^{ \infty } \bm{x_{k, r}}[n] \bm{w} [n - m]e^{-j \omega n}} $$
+
+We then compute the mean power across all frequencies
+
+$$ \bm{Y_{k}}[f] = \frac{1}{N} \frac{1}{r} \sum_{1}^{N}\bm{X_{k}}[f] $$
+
+$$ X_{norm}^{-1} X^T $$
+
+$$ \bm{\frac{\left\Vert \bm{\mu}_{targ} - \bm{\mu}_{base} \right\Vert}{\bm{\sigma}^2_{targ}+\bm{\sigma}^2_{base}}} $$

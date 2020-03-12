@@ -1,8 +1,7 @@
-""" 
-A module for timeseries analysis using the spectral decomposition of data.
+"""
+Module for contrasting timeseries data based on their spectral properties.
 
-Version 1.0;
-Author: Ali Zaidi
+The set of methods are aimed at finding the frequency bands that enable the maximal seperability betwen two sets of timeseries data.
 """
 
 # IMPORT DEPENDENCIES

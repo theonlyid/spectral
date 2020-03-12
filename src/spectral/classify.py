@@ -1,5 +1,11 @@
 """
-Contains code for classifying timeseries data based on their spectral signatures.
+Module for classifying timeseries data based on their spectral properties.
+
+This module enables the classification of STFT transformed data
+by training an SVM classifier.
+
+This facilitates the identification of various events (defined as transient spatio-temporal patterns of activity)
+present within the timeseries data, that have been identified.
 """
 
 import sklearn
