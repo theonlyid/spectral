@@ -20,8 +20,6 @@ Matfiles/
 *.ini
 *.fig
 *.rar
-*.pdf
-*.PDF
 
 # VSCODE
 .vscode*
