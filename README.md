@@ -2,11 +2,9 @@
 
 ## The What
 
-Contains Matlab and Python scripts for NET-fMRI/LFP analysis developed at MPIBK AG Logothetis.
+Contains Matlab and Python scripts for LFP analysis developed at MPIBK AG Logothetis.
 
 ### Current modules
-
-**[NETfMRI](/docs/NETfMRI) maintained by Jenny**
 
 **[Spectral](/docs/spectral/README.md) mainained by Ali**
 
@@ -29,5 +27,3 @@ Each module's documentation has it's own README file. Refer to that for module s
 For queries or issues, contact the following persons:
 
 For queries regarding the repository, contribution, installation, etc: Ali
-
-For MATLAB code and installation: Jenny
