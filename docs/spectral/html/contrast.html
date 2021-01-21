@@ -133,7 +133,7 @@ def get_norm_array(data, **kwargs):
     # Average across trials and time-bins
     data_stft_mean = np.mean(np.abs(data_stft), axis=-1)    # trials
     norm_array = np.mean(np.abs(data_stft_mean), axis=-1)   # timebins
-
+    
     return norm_array
 
 def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
@@ -297,7 +297,7 @@ def generate_ts(nsamples, fs, **kwargs):
     n[1:] = np.array(n[1:])/f[1:]
 
     # Add some LFP-like components
-    #=== TO DO ===#
+    # TODO: 
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
@@ -341,14 +341,15 @@ def test():
     Returns `True` if everything works.
     &#34;&#34;&#34;
     s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
+    # s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,-2:], f)
+    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,2:], f)
     snr = get_snr(t, b)
     
-    print(np.int(snr.ravel().max())==0)
+    return np.isclose(np.mean(snr.ravel()), 0)
     
-def filter(data, low_pass, high_pass, fs, order=10):
+def filter(data, low_pass, high_pass, fs, order=4):
     &#34;&#34;&#34;
     Generates an n-th order butterworth filter and performs forward-backward pass on the signal.
     
@@ -374,9 +375,8 @@ def filter(data, low_pass, high_pass, fs, order=10):
     nyq = fs/2
     low = low_pass/nyq
     high = high_pass/nyq
-
     b, a = signal.butter(order, [low, high], btype=&#39;band&#39;)
-    filt_data = np.abs(signal.hilbert(signal.filtfilt(b, a, data, axis=1), axis=1))
+    filt_data = signal.filtfilt(b, a, data, axis=1, method=&#39;gust&#39;)
     return filt_data
 
 if __name__ == &#39;__main__&#39;:
@@ -478,7 +478,7 @@ if __name__ == &#39;__main__&#39;:
 </details>
 </dd>
 <dt id="spectral.contrast.filter"><code class="name flex">
-<span>def <span class="ident">filter</span></span>(<span>data, low_pass, high_pass, fs, order=10)</span>
+<span>def <span class="ident">filter</span></span>(<span>data, low_pass, high_pass, fs, order=4)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Generates an n-th order butterworth filter and performs forward-backward pass on the signal.</p>
@@ -504,7 +504,7 @@ if __name__ == &#39;__main__&#39;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def filter(data, low_pass, high_pass, fs, order=10):
+<pre><code class="python">def filter(data, low_pass, high_pass, fs, order=4):
     &#34;&#34;&#34;
     Generates an n-th order butterworth filter and performs forward-backward pass on the signal.
     
@@ -530,9 +530,8 @@ if __name__ == &#39;__main__&#39;:
     nyq = fs/2
     low = low_pass/nyq
     high = high_pass/nyq
-
     b, a = signal.butter(order, [low, high], btype=&#39;band&#39;)
-    filt_data = np.abs(signal.hilbert(signal.filtfilt(b, a, data, axis=1), axis=1))
+    filt_data = signal.filtfilt(b, a, data, axis=1, method=&#39;gust&#39;)
     return filt_data</code></pre>
 </details>
 </dd>
@@ -568,7 +567,7 @@ if __name__ == &#39;__main__&#39;:
     n[1:] = np.array(n[1:])/f[1:]
 
     # Add some LFP-like components
-    #=== TO DO ===#
+    # TODO: 
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
@@ -709,7 +708,7 @@ if __name__ == &#39;__main__&#39;:
     # Average across trials and time-bins
     data_stft_mean = np.mean(np.abs(data_stft), axis=-1)    # trials
     norm_array = np.mean(np.abs(data_stft_mean), axis=-1)   # timebins
-
+    
     return norm_array</code></pre>
 </details>
 </dd>
@@ -907,12 +906,13 @@ if __name__ == &#39;__main__&#39;:
     Returns `True` if everything works.
     &#34;&#34;&#34;
     s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
+    # s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,-2:], f)
+    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,2:], f)
     snr = get_snr(t, b)
     
-    print(np.int(snr.ravel().max())==0)</code></pre>
+    return np.isclose(np.mean(snr.ravel()), 0)</code></pre>
 </details>
 </dd>
 </dl>
