@@ -1,16 +1,11 @@
 # Python files
 __pycache*
 .ipynb_*
-
-# Matlab folders
-Matfiles/
+.pytest_*
 
 # Image files
-*.png
 *.eps
 *.ai
-*.jpg
-*.jpeg
 *.emf
 
 # Other files
@@ -21,6 +16,8 @@ Matfiles/
 *.fig
 *.rar
 
-# VSCODE
-.vscode*
-.vscode/
+# Temporary files starting with temp_
+temp_*
+
+# User specific files
+Matlab.bat

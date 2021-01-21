@@ -8,9 +8,65 @@ The set of methods are aimed at finding the frequency bands that enable the maxi
 
 from __future__ import absolute_import, print_function
 import numpy as np
-from scipy import signal
+from scipy import signal, stats
 
 # Code starts here
+def contrast(data, y, **kwargs):
+    """
+    This method returns the SNR given a data array and vector of labels.
+    
+    Ideally, this should be the only method that you need to call when contrasting timeseries' spectra.
+    
+    Parameters
+    ----------
+    data: array [nchans x nobs x ntrials]
+        an array with the LFP data organized into channels and trials.
+    y: array [ntrials]
+        a binary vector with a label for each trial being either 0 or 1
+    
+    **fs: int
+        the sampling frequency of the signal
+    **nperseg: param (int)
+        number of samples per fft
+    **noverlap: param (int)
+        number of samples of overlap between successive ffts
+        
+    Returns
+    -------
+    snr: array [nfreqs x nfreqs]
+        a matrix with the SNR for each combination of frequency bands
+    f: array [nfreqs]
+        a vector that represents the frequencies for interpreting `snr`.
+    """
+    
+    # read stft params from function arguments
+    if 'fs' in kwargs: fs=int(kwargs['fs'])
+    else: fs = 100
+
+    if 'nperseg' in kwargs: nperseg=int(kwargs['nperseg'])
+    else: nperseg = 64
+    
+    if 'noverlap' in kwargs: noverlap=int(kwargs['noverlap'])
+    else: noverlap = 3*(nperseg//4)
+    
+    # convert input to numpy array (precautionarily)
+    data = np.array(data)    
+    y = np.array(y)
+    
+    # get normalization array
+    norm = get_norm_array(data, fs=fs, nperseg=nperseg, noverlap=noverlap)
+    
+    # decompose data
+    ds, f = get_stft(data, norm_array=norm, normalize=True, fs=fs, nperseg=nperseg, noverlap=noverlap)
+    
+    # compute mean power over every permutation of bands
+    t, b = get_bands(ds[:,:,:,y==1], ds[:,:,:,y==0], f)
+    
+    # calculate the snr
+    snr = get_snr(t, b)
+    
+    return snr, f
+
 def get_norm_array(data, **kwargs):
     """
     Returns the normalization array for timeseries data.
@@ -18,9 +74,9 @@ def get_norm_array(data, **kwargs):
     Parameters
     ----------
     data: array, timeseries data [nchan x nobs x ntrials]
-    *fs: int, sampling frequency in Hz
-    *nperseg: int, number of timepoints for stft window
-    *noverlap: int, number of timepoints for window overlap
+    **fs: int, sampling frequency in Hz
+    **nperseg: int, number of timepoints for stft window
+    **noverlap: int, number of timepoints for window overlap
 
     Returns
     -------
@@ -28,13 +84,13 @@ def get_norm_array(data, **kwargs):
     """
 
     # Read stft params from function arguments
-    if 'fs' in kwargs.items(): fs=kwargs['fs']
-    else: fs = 1000
+    if 'fs' in kwargs: fs=int(kwargs['fs'])
+    else: fs = 100
 
-    if 'nperseg' in kwargs.items(): noverlap=kwargs['nperseg']
+    if 'nperseg' in kwargs: nperseg=int(kwargs['nperseg'])
     else: nperseg = 64
 
-    if 'noverlap' in kwargs.items(): noverlap=kwargs['noverlap']
+    if 'noverlap' in kwargs: noverlap=int(kwargs['noverlap'])
     else: noverlap = 3*(nperseg//4)
 
     # Get the STFT of the signals
@@ -47,7 +103,7 @@ def get_norm_array(data, **kwargs):
     # Average across trials and time-bins
     data_stft_mean = np.mean(np.abs(data_stft), axis=-1)    # trials
     norm_array = np.mean(np.abs(data_stft_mean), axis=-1)   # timebins
-
+    
     return norm_array
 
 def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
@@ -75,13 +131,13 @@ def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
         an array of the frequencies of the STFT transform
     """
     # Read stft params from function arguments
-    if 'fs' in kwargs.items(): fs=kwargs['fs']
-    else: fs = 1000
+    if 'fs' in kwargs: fs=int(kwargs['fs'])
+    else: fs = 100
 
-    if 'nperseg' in kwargs.items(): noverlap=kwargs['nperseg']
+    if 'nperseg' in kwargs: nperseg=int(kwargs['nperseg'])
     else: nperseg = 64
 
-    if 'noverlap' in kwargs.items(): noverlap=kwargs['noverlap']
+    if 'noverlap' in kwargs: noverlap=int(kwargs['noverlap'])
     else: noverlap = 3*(nperseg//4)
 
     # Calculate the short-time fourrier transform
@@ -126,19 +182,24 @@ def get_bands(target_stft_norm, baseline_stft_norm, f):
         same as `target_bands` [nchan x nfreqs x nfreqs x nobs x ntrials]
     """
     
-    data_array_norm = target_stft_norm
-    baseline_array_norm = baseline_stft_norm
+    data_array_norm = np.array(target_stft_norm)
+    baseline_array_norm = np.array(baseline_stft_norm)
 
     fmax = 500
     fidx = f < fmax
     fnum = f[fidx].size
 
-    band_tot = np.zeros((fnum, fnum, data_array_norm.shape[0], data_array_norm.shape[2], data_array_norm.shape[3]))
-    band_tot_bl = np.zeros((fnum, fnum, baseline_array_norm.shape[0], baseline_array_norm.shape[2], baseline_array_norm.shape[3]))
+    band_tot = np.empty((fnum, fnum, data_array_norm.shape[0], data_array_norm.shape[2], data_array_norm.shape[3]))
+    band_tot_bl = np.empty((fnum, fnum, baseline_array_norm.shape[0], baseline_array_norm.shape[2], baseline_array_norm.shape[3]))
+    
+    band_tot[:] = np.nan
+    band_tot_bl[:] = np.nan
+    
     for i in range(fnum):
         for j in range(fnum):
             if j > i:
                 idx = (f >= f[i]) & (f < f[j])
+              
                 band_tot[i, j, :, :] = np.sum(data_array_norm[:, idx, :, :], axis=1) / (f[j] - f[i])
                 band_tot_bl[i, j, :, :] = np.sum(baseline_array_norm[:, idx, :, :], axis=1) / (f[j] - f[i])
 
@@ -183,12 +244,15 @@ def _div0( a, b ):
         c[ ~ np.isfinite( c )] = 0  # -inf inf NaN
     return c
 
-def generate_ts(nsamples=10000, fs=1000, **kwargs):
+def generate_ts(nsamples, fs, **kwargs):
     """
-    Generates a 10s long LFP-like timeseries at 1kHz obeying the power law.
+    Generates an LFP-like timeseries sampled at fs obeying the power law.
     """
     # For unit test
-    if 'seed' in kwargs.items(): np.random.seed=kwargs['seed']
+    if 'seed' in kwargs:
+        seed=int(kwargs['seed'])
+    else:
+        seed=np.random.uniform(1, 100)
    
     # Generate some pink noise
     t = np.arange(nsamples) # timesteps
@@ -196,31 +260,47 @@ def generate_ts(nsamples=10000, fs=1000, **kwargs):
 
     # generate random complex series
     n = np.zeros((nsamples,), dtype=complex)
-    n = np.exp(1j*np.random.uniform(0, 2*np.pi, (nsamples, )))
+    np.random.seed=seed
+    n = np.exp(1j*(2*np.pi*np.random.rand(nsamples, )))
 
     # make frequency follow 1/f law
     n[1:] = np.array(n[1:])/f[1:]
 
     # Add some LFP-like components
-    #=== TO DO ===#
+    # TODO: 
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
     return s
 
-def simulate_recording(nchans=10, nsamples=10000, fs=1000, **kwargs):
+def simulate_recording(**kwargs):
     """
     Simulates an LFP recording with bursts in power of certain bands.
     """
+    
+    if 'nchans' in kwargs: nchans=int(kwargs['nchans'])
+    else: nchans = 10
+    
+    if 'nsamples' in kwargs: nsamples=int(kwargs['nsamples'])
+    else: nsamples = 1000
+    
+    if 'fs' in kwargs: fs=int(kwargs['fs'])
+    else: fs = 1000
+    
+    if 'nepochs' in kwargs: nepochs= int(kwargs['nepochs'])
+    else: nepochs=10
 
+    if 'seed' in kwargs: seed=int(kwargs['seed'])
+    else: seed=np.random.uniform(1,100)
+    
     # create empty array
-    dat = np.zeros((nchans, nsamples))
+    dat = np.empty((nchans, nsamples))
 
     # fill array with pink noise
     for i in range(dat.shape[0]):
-        dat[i,:] = generate_ts(seed=42)
+        dat[i,:] = generate_ts(nsamples=nsamples, fs=fs, seed=seed)
     
-    dat = np.repeat(dat[:, :, np.newaxis], 10, axis=-1)
+    dat = np.repeat(dat[:, :, np.newaxis], nepochs, axis=-1)
 
     return dat
  
@@ -230,63 +310,16 @@ def test():
     
     Returns `True` if everything works.
     """
-    s = simulate_recording(seed=42)
-    norm = get_norm_array(s)
-    ds, f = get_stft(s, norm_array=norm)
-    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,-2:], f)
+    s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
+    # s = filter(s, 2, 40, fs=100, order=3)
+    norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
+    ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
+    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,2:], f)
     snr = get_snr(t, b)
     
-    print(np.int(snr.ravel().max())==0)
+    return np.isclose(np.mean(snr.ravel()), 0)
     
-def contrast(data, y, **kwargs):
-    """
-    This method returns the SNR given a data array and vector of labels.
-    
-    Ideally, this should be the only method that you need to call when contrasting timeseries' spectra.
-    
-    Parameters
-    ----------
-    data: array [nchans x nobs x ntrials]
-        an array with the LFP data organized into channels and trials.
-    y: array [ntrials]
-        a binary vector with a label for each trial being either 0 or 1
-        
-    Returns
-    -------
-    snr: array [nfreqs x nfreqs]
-        a matrix with the SNR for each combination of frequency bands
-    f: array [nfreqs]
-        a vector that represents the frequencies for interpreting `snr`.
-    """
-    
-    # read stft params from function arguments
-    if 'fs' in kwargs.items(): fs=kwargs['fs']
-    else: fs = 1000
-
-    if 'nperseg' in kwargs.items(): noverlap=kwargs['nperseg']
-    else: nperseg = 640
-
-    if 'noverlap' in kwargs.items(): noverlap=kwargs['noverlap']
-    else: noverlap = 3*(nperseg//4)
-    
-    # convert input to numpy array (precautionarily)
-    data = np.array(data)    
-    
-    # get normalization array
-    norm = get_norm_array(data)
-    
-    # decompose data
-    ds, f = get_stft(data, norm_array=norm)
-    
-    # compute mean power over every permutation of bands
-    t, b = get_bands(ds[:,:,:,y==1], ds[:,:,:,y==0], f)
-    
-    # calculate the snr
-    snr = get_snr(t, b)
-    
-    return snr, f
-
-def filter(data, low_pass, high_pass, fs, order=10):
+def filter(data, low_pass, high_pass, fs, order=4):
     """
     Generates an n-th order butterworth filter and performs forward-backward pass on the signal.
     
@@ -312,9 +345,8 @@ def filter(data, low_pass, high_pass, fs, order=10):
     nyq = fs/2
     low = low_pass/nyq
     high = high_pass/nyq
-
     b, a = signal.butter(order, [low, high], btype='band')
-    filt_data = np.abs(signal.hilbert(signal.filtfilt(b, a, data, axis=1), axis=1))
+    filt_data = signal.filtfilt(b, a, data, axis=1, method='gust')
     return filt_data
 
 if __name__ == '__main__':

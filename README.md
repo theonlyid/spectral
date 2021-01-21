@@ -1,33 +1,33 @@
-# Spectral Contrasting for LFP analysis
+# NET-fMRI Analysis
 
-### What is this repo for?
+## The What
 
-For developing code to contrast LFP frequencies between various brain-states obtained from fMRI analysis.
+Contains Matlab and Python scripts for NET-fMRI/LFP analysis developed at MPIBK AG Logothetis.
 
-### How do I get up and running?
+### Current modules
 
-The package uses python/cython as a computation backend, and makes the methods and variables MATLAB compatible.
+**[NETfMRI](/docs/NETfMRI) maintained by Jenny**
 
-#### Make sure you have [Anaconda 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) and [Matlab R2019b](http://www.mathworks.com/) installed
+**[Spectral](/docs/spectral/README.md) mainained by Ali**
 
-!! WARNING: These instructions are only valid for 64-bit Windows systems with Python 3.7 !!
+## The Where
 
-Setup Instructions:
+The root directory has two subdirs: src and docs.
 
-1. Clone this repo and double click on **"Launch Matlab.bat"** in the home folder. This is critical otherwise Matlab will be blind to Python.
+**src** houses all sourcecode. It has an [about.md](/docs/about.md) file on how to add and maintain sourcecode
 
-2. Test if python dependencies work: Type ```py.help("numpy")```. It should return a list of numpy methods.
+**docs** houses all documentation. Each module has its own sudir.
 
-3. Run the test method (see code snippet below). It should return True. This means everything works.
+Apart from these, **management** contains information pertaining to project management such as meetings notes, etc.
 
-```matlab
->> sc = py.importlib.import_module("src.spectral.contrast");
->> sc.test()
-True
-```
+## The How
 
-If all this is a (miraculous) success, you can refer to the [documentation](/docs/index.html) and usage [summary](/docs/summary.md).
+Each module's documentation has it's own README file. Refer to that for module specific installation and implementation instructions.
 
-Good luck!
+## The Who
 
-##### maintained by [Ali Zaidi](mailto:ali.zaidi@tuebingen.mpg.de)
+For queries or issues, contact the following persons:
+
+For queries regarding the repository, contribution, installation, etc: Ali
+
+For MATLAB code and installation: Jenny

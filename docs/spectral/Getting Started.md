@@ -26,15 +26,6 @@ sc = py.importlib.import_module("src.spectral.contrast");
 
 We begin by a single data array, that has the structure of nchans x timepoints x trials. Each trial consists of a regular window (default is 1 second), which is classified as either target or baseline.
 
-! NOTE
-
-In case you're using Matlab for the analysis, make sure to convert all arrays to numpy compatible tuples:
-
-```matlab
-np = py.importlib.import_module('numpy');
-data = np.array(data);
-```
-
 ## An overview of the contrasting algorithm
 
 To begin with, we obtain a normalization vector for the entire dataset. This helps in normalizing the frequency spectrum across our two conditions, enabling better contrasting.
@@ -94,7 +85,9 @@ This will return a matrix with the shape of the original data but band-pass filt
 
 #### 1.1 Spectral Contrasting
 
-We're interested in contrasting the frequencies across two timeseries.
+<--> Under Constuction <-->
+
+<!-- We're interested in contrasting the frequencies across two timeseries.
 
 $$ \bm{X_{k, r} (m,\omega)  = \sum_{ -\infty }^{ \infty } \bm{x_{k, r}}[n] \bm{w} [n - m]e^{-j \omega n}} $$
 
@@ -104,4 +97,4 @@ $$ \bm{Y_{k}}[f] = \frac{1}{N} \frac{1}{r} \sum_{1}^{N}\bm{X_{k}}[f] $$
 
 $$ X_{norm}^{-1} X^T $$
 
-$$ \bm{\frac{\left\Vert \bm{\mu}_{targ} - \bm{\mu}_{base} \right\Vert}{\bm{\sigma}^2_{targ}+\bm{\sigma}^2_{base}}} $$
+$$ \bm{\frac{\left\Vert \bm{\mu}_{targ} - \bm{\mu}_{base} \right\Vert}{\bm{\sigma}^2_{targ}+\bm{\sigma}^2_{base}}} $$ -->

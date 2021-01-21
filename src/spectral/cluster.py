@@ -11,7 +11,7 @@ from scipy.signal import stft
 from umap import UMAP
 import numpy as np
 from sklearn.cluster import OPTICS, cluster_optics_dbscan
-from sklearn.metrics import calinski_harabaz_score
+from sklearn.metrics import calinski_harabasz_score
 
 def stft_norm(data, **kwargs):
     """
@@ -120,7 +120,7 @@ def cluster(data, **kwargs):
         if ncl[-1] <= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calinski_harabaz_score(data, labels))
+            res = np.append(res, calanski_harabasz_score(data, labels))
 
     nclust = np.unique(ncl)
     
