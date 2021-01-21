@@ -1,8 +1,8 @@
-# NET-fMRI Analysis
+# Spectral toolbox for neural data analysis
 
 ## The What
 
-Contains Matlab and Python scripts for Neural Timeseries analysis developed at MPIBK AG Logothetis.
+Contains Matlab and Python scripts for neural timeseries analysis developed at MPIBK AG Logothetis.
 
 ### Current modules
 
