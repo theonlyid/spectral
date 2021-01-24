@@ -10,7 +10,7 @@ The package uses python/cython as a computation backend, and makes the methods a
 
 **Make sure you have [Anaconda 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) and [Matlab R2019b](http://www.mathworks.com/) installed**
 
-In case you don't have Anaconda 3.7 Installed, or haven't called python code from Matlab before, see instructions for setting up Python 3.7 with Matlab 2019b below in Appenndix A1.2 below
+<font color="red">*In case you don't have Anaconda 3.7 Installed, or haven't called python code from Matlab before, see instructions for setting up Python 3.7 with Matlab 2019b below in Appenndix A1.2*</font>
 
 **Setup Instructions:**
 
