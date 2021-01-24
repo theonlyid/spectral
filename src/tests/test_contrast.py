@@ -1,5 +1,14 @@
-from . import contrast
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
+
+from spectral import contrast
 import numpy as np
+
+def test_import():
+    module_name = 'contrast'
+    # print(sys.modules)
+    assert module_name in globals()
 
 def test_contrast():
     data = contrast.simulate_recording(
