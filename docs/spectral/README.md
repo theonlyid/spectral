@@ -1,6 +1,6 @@
-# Spectral Contrasting for LFP analysis
+# Spectral Contrasting for neural time-series analysis
 
-Python module for contrasting LFP frequencies between various brain-states.
+Python module for contrasting neural time-series frequencies between various brain-states.
 
 ## Get up and running
 
