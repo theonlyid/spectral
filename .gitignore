@@ -18,6 +18,7 @@ __pycache*
 
 # Temporary files starting with temp_
 temp_*
+tmp_*
 
 # User specific files
 Matlab.bat

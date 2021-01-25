@@ -244,7 +244,7 @@ def _div0( a, b ):
         c[ ~ np.isfinite( c )] = 0  # -inf inf NaN
     return c
 
-def generate_ts(nsamples, fs, **kwargs):
+def generate_ts(nsamples=2000, fs=1000, **kwargs):
     """
     Generates an LFP-like timeseries sampled at fs obeying the power law.
     """
@@ -262,12 +262,14 @@ def generate_ts(nsamples, fs, **kwargs):
     n = np.zeros((nsamples,), dtype=complex)
     np.random.seed=seed
     n = np.exp(1j*(2*np.pi*np.random.rand(nsamples, )))
+    
+    n *= 100 # make the spectrum stronger
 
     # make frequency follow 1/f law
-    n[1:] = np.array(n[1:])/f[1:]
+    n[1:] = np.array(n[1:])/f[1:] 
 
     # Add some LFP-like components
-    # TODO: 
+    #  
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
