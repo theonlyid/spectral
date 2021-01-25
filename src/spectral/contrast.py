@@ -244,7 +244,7 @@ def _div0( a, b ):
         c[ ~ np.isfinite( c )] = 0  # -inf inf NaN
     return c
 
-def generate_ts(nsamples=2000, fs=1000, **kwargs):
+def generate_ts(nsamples=200, fs=100, **kwargs):
     """
     Generates an LFP-like timeseries sampled at fs obeying the power law.
     """
