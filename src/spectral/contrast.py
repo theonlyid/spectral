@@ -8,7 +8,8 @@ The set of methods are aimed at finding the frequency bands that enable the maxi
 
 from __future__ import absolute_import, print_function
 import numpy as np
-from scipy import signal, stats
+from scipy import signal
+import math
 
 # Code starts here
 def contrast(data, y, **kwargs):
@@ -161,7 +162,7 @@ def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
     else:
         return data_stft, f
 
-def get_bands(target_stft_norm, baseline_stft_norm, f):
+def get_bands(target_stft_norm, baseline_stft_norm, f, **kwargs):
     """
     Calculates the mean power across all possible combinations of frequencies for each channel.
     
@@ -185,7 +186,7 @@ def get_bands(target_stft_norm, baseline_stft_norm, f):
     data_array_norm = np.array(target_stft_norm)
     baseline_array_norm = np.array(baseline_stft_norm)
 
-    fmax = 500
+    fmax = int(kwargs['fmax']) if 'fmax' in kwargs else 500
     fidx = f < fmax
     fnum = f[fidx].size
 
@@ -262,14 +263,17 @@ def generate_ts(nsamples=200, fs=100, **kwargs):
     n = np.zeros((nsamples,), dtype=complex)
     np.random.seed=seed
     n = np.exp(1j*(2*np.pi*np.random.rand(nsamples, )))
-    
-    n *= 100 # make the spectrum stronger
-
-    # make frequency follow 1/f law
-    n[1:] = np.array(n[1:])/f[1:] 
+    n[0] = 0
+    # n *= 100 # make the spectrum stronger
 
     # Add some LFP-like components
-    #  
+    # TODO: Finish writing this function
+    mix = lambda x, mean, var: 5* math.exp(-((x-mean)**2)/(2*var**2))
+    n = n-min(np.real(n))
+    mean = np.random.randint(10, len(f))
+    var = 3 * len(f)/mean
+    n_new = n + [mix(i, mean, var) for i in range(len(n))]
+    n_new[1:] = np.array(n_new[1:])/np.arange(len(n))[1:]
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
@@ -305,6 +309,26 @@ def simulate_recording(**kwargs):
     dat = np.repeat(dat[:, :, np.newaxis], nepochs, axis=-1)
 
     return dat
+
+def __get_f_from_idx(idx, f):
+    """
+    Returns the value of f from the index
+    
+    Parameters
+    ----------
+    
+    idx: array 
+        array with indices for which frequencies are required
+        
+    Returns
+    -------
+    f: array
+        array with frequencies corresponding to idx
+    
+    """
+    
+    return [f[i] for i in idx]
+    
  
 def test():
     """
