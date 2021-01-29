@@ -144,9 +144,9 @@ For Spectral, the notebooks can be found [here](/docs/spectral/notebooks/).
 2. How do I add custom files or folders that I do not want tracked?
     Checkout the [instructions](#custom) above.
 
-3. The system returns: Out of Memory Error
+3. The contrast() function fails: Out of Memory Error
+
     Looks like you're crunching big numbers!
-    Ensure that your virtual memory file is ~64GB.
-    You can find information on how to do that [here](https://superuser.com/questions/793304/how-to-increase-swap-memory-in-windows).
+    The contrasting algorithm converts the timeseries to frequency. It then loops over every combination of frequencies to find the snr. If you use a very high nobs, and a high nperseg, squaring that data will lead to memory issues. Try reducing the nperseg to 64 or even 32. This will reduce the frequency resolution, unfortunately.
 
 ##### This code is maintained by Ali Zaidi (azaidi(at)tue(dot)mpg(dot)de)
