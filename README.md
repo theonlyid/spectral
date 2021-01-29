@@ -5,8 +5,8 @@
 1. [The What](#what): about this repository and code
 
     1.1 [Current Modules](#modules): a list of modules
-    
-2. [The Where](#where): folder orgarnisation and structure
+
+2. [The Where](#where): folder organisation and structure
 
 3. [The How](#how): installation, execution
 
@@ -24,7 +24,7 @@ ________
 
 Contains Matlab and Python scripts for Spectral, a toolbox for neural timeseries analysis developed at MPIBK AG Logothetis. The toolbox enables clustering, contrasting and classification of timeseries based on their spectral properties. It consits of submodules with code for performing each of those steps.
 
-### 1.1 Current modules <a name='currentmodules></a>
+### 1.1 Current modules <a name='currentmodules'></a>
 
 **[Spectral](/docs/spectral/README.md) mainained by Ali**
 
@@ -32,7 +32,7 @@ Contains Matlab and Python scripts for Spectral, a toolbox for neural timeseries
 
 The root directory has two subdirs: src and docs.
 
-**src** houses all sourcecode. It has an [about.md](/docs/about.md) file on how to add and maintain sourcecode
+**src** houses all source-code. It has an [about.md](/docs/about.md) file on how to add and maintain sourcecode
 
 **docs** houses all documentation. Each module has its own sub-directory.
 
@@ -103,6 +103,20 @@ using py.help:
 >> py.help(spectral.contrast)
 ```
 
+### Adding untracked local files and folders <a name="custom"></a>
+
+You can add your own scripts or notebooks to folders, or your own folders to the repo, and make sure they aren't tracked.
+This will ensure you do not add them to the repository, or lose them if you pull a new version/release.
+
+#### Files
+
+Add the prefix "temp_" or "tmp_" (e.g. temp_analysis.m) to your files. Any file with that prefix will be ignored.
+Open [gitignore](.gitignore) for a complete list of files/folders ignored.
+
+#### Folders
+
+Ignoring an entire folder is very easy. Create a text document titled ".gitnore" and add the asterisk (*) symbol in the document and save it. This will ignore the entire folder. You can save data and custom scripts in such folders.
+
 ## 4. Documentation <a name="docs"></a>
 
 The modules have documentation in HTML and PDF format in the docs folder. There are also example notebooks. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/spectral/html/index.html.
@@ -118,15 +132,16 @@ For Spectral, the notebooks can be found [here](/docs/spectral/notebooks/).
 
 ## 5. FAQS <a name="faqs"></a>
 
-#### Common exceptions and how to handle them
-
-1. ```py.help('numpy')``` fails
+1. What do I do if ```py.help('numpy')``` fails?
 
     This is caused when the python interpreter is not loaded by Matlab.
 
     1. Ensure Anaconda is installed.
     2. Make sure you close all instances of Matlab and start Matlab using the matlab.bat
-    file in the repos root folder.
+    file in the repo's root folder.
     3. Ensure Matlab can access the python interpreter by calling ```pyversion```.
+
+2. How do I add custom files or folders that I do not want tracked?
+    Checkout the [instructions](#custom) above.
 
 ##### This code is maintained by Ali Zaidi (azaidi(at)tue(dot)mpg(dot)de)
