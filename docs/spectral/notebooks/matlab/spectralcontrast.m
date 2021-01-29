@@ -30,7 +30,7 @@ data = sc.simulate_recording(args_gen);
 y = [ones(1,5), zeros(1,5)];
 
 % Specify data-specific arguments
-args_con = pyargs('fs', int32(1000), 'nperseg', int32(64));
+args_con = pyargs('fs', int32(1000), 'nperseg', int32(64), 'noverlap', int32(32));
 res = sc.contrast(data, y, args_con);
 %% 
 % We've captured the result returned by |sc.contrast()| in |res|. In case we'd 
