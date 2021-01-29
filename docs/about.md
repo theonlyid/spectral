@@ -1,6 +1,6 @@
 # About documentation organisation
 
-This documentation folder contains docs for multiple modules developed in either Python, Matlab or bash.
+This documentation folder contains docs for the modules developed in either Python, Matlab or bash.
 
 Each module has it's own README.md, html, pdf documentation and example notebooks in the subdirectory with it's name.
 

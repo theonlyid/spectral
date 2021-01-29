@@ -4,11 +4,13 @@ Author: Ali Zaidi
 
 ## Overview
 
-Our primary motivation is to identify events in neural time-series. Specifically, we're interested in contrasting time-series data, ie, given the time-series of two "conditions", we woud like to identify frequency bands are most different.
+Our primary motivation is to identify events in neural time-series. Specifically, we're interested in contrasting time-series data, ie, given the time-series of two "conditions", we woud like to identify frequency bands that are most different.
 
 ## Preparing the data
 
-The code supports contrasting between two conditions. The way to organize the arrays is to create tensors with the following structure: nchans x timepoints x trials. Ideally, keeping the number of timepoints equivalent to the sampling frequency is advised, though not a requirement.
+The code supports contrasting between two conditions. The way to organize the arrays is to create tensors with the following structure: nchans x timepoints x trials.
+
+**Ideally, keeping the number of timepoints equivalent to the sampling frequency is advised, though not a requirement. It enables faster computation.**
 
 Before starting, ensure you're in the repo's root folder and that the module has been imported properly.
 
@@ -62,16 +64,16 @@ The last step is obtaining the contrast between the baseline and target arrays.
 snr = sc.get_snr(t, b)
 
 # for plotting using matplotlib
-plt.imshow(snr, origin='bottom')
+plt.imshow(snr, origin='bottom', interpolation='bicubic')
 ```
 
 ### How to read the SNR matrix
 
-The SNR matrix is two dimensional. The first axis represents the band start, and the second represents the band stop. This allows a handle into the start and stop bands that enable maximal seperation of the two signals. Eg, the maximal separation indices could be (4, 8), where 4 is the band start and 8 is the band stop. To get the frequencies for the respective indices, use the **f** vector (f[4]).
+The SNR matrix is two dimensional. For each entry, the first axis represents the band start, and the second represents the band stop. This allows a handle into the start and stop bands that enable maximal seperation of the two signals. Eg, the maximal separation indices could be (4, 8), where 4 is the band start and 8 is the band stop. To get the frequencies for the respective indices, use the **f** vector (f[4]).
 
 ### Using the SNR matrix
 
-After obtaining the bands where the SNR is maximum, the final step is to filter the data within those frequency bands
+After obtaining the bands where the SNR is maximum, the final step is to filter the data within those frequency bands:
 
 ```python
 filt_data = sc.filter(data, bandstart, bandstop, fs)
