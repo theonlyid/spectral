@@ -15,6 +15,10 @@ __pycache*
 *.ini
 *.fig
 *.rar
+*.mlx
+
+# Any data folders
+data/
 
 # Temporary files starting with temp_
 temp_*

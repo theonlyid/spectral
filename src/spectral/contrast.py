@@ -55,15 +55,19 @@ def contrast(data, y, **kwargs):
     y = np.array(y)
     
     # get normalization array
+    print("Obtain normalization array...")
     norm = get_norm_array(data, fs=fs, nperseg=nperseg, noverlap=noverlap)
     
     # decompose data
+    print("calculating stft...")
     ds, f = get_stft(data, norm_array=norm, normalize=True, fs=fs, nperseg=nperseg, noverlap=noverlap)
     
     # compute mean power over every permutation of bands
+    print("normalizing matrices... this may take a few minutes...")
     t, b = get_bands(ds[:,:,:,y==1], ds[:,:,:,y==0], f)
     
     # calculate the snr
+    print("obtaining snr...")
     snr = get_snr(t, b)
     
     return snr, f
@@ -86,7 +90,7 @@ def get_norm_array(data, **kwargs):
 
     # Read stft params from function arguments
     if 'fs' in kwargs: fs=int(kwargs['fs'])
-    else: fs = 100
+    else: fs = 1000
 
     if 'nperseg' in kwargs: nperseg=int(kwargs['nperseg'])
     else: nperseg = 64
