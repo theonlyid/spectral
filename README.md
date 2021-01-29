@@ -144,4 +144,9 @@ For Spectral, the notebooks can be found [here](/docs/spectral/notebooks/).
 2. How do I add custom files or folders that I do not want tracked?
     Checkout the [instructions](#custom) above.
 
+3. The system returns: Out of Memory Error
+    Looks like you're crunching big numbers!
+    Ensure that your virtual memory file is ~64GB.
+    You can find information on how to do that [here](https://superuser.com/questions/793304/how-to-increase-swap-memory-in-windows).
+
 ##### This code is maintained by Ali Zaidi (azaidi(at)tue(dot)mpg(dot)de)
