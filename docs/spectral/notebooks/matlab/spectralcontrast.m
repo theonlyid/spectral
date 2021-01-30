@@ -65,8 +65,8 @@ snr = squeeze(snr); % remove extra dimensions
 % 
 % We can do all the above steps together in a single step:
 
-f = double(squeeze(np.array(res(2))))
+f = double(squeeze(np.array(res(2))));
 %% 
 % Plotting the snr is super easy,
 
-imshow(flipud(snr));
+surf(f(1:end-1, f(1:end), snr)); colormap('jet');
