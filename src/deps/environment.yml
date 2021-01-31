@@ -5,8 +5,6 @@ dependencies:
   - pymc3
   - statsmodels
   - scikit-learn
-  - umap-learn
-  - notebook
   - pyqt
   - pdoc3
   - pytest
