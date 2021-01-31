@@ -120,7 +120,7 @@ def cluster(data, **kwargs):
         if ncl[-1] <= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calanski_harabasz_score(data, labels))
+            res = np.append(res, calinski_harabasz_score(data, labels))
 
     nclust = np.unique(ncl)
     
