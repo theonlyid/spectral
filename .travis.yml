@@ -27,7 +27,10 @@ install:
 
   - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
-  - conda install pytest
+  - conda install pytest pytest-cov
 
 script:
-  - pytest  # will run all tests in the package
+  - pytest --cov=./ # will run all tests in the package
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
