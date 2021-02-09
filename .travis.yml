@@ -25,7 +25,7 @@ install:
   # We just set up a conda environment with the right Python version. This
   # should not need changing.
 
-  - conda env update --name spectral -f=./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
   - conda install pytest
 
