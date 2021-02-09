@@ -1,5 +1,6 @@
 name: spectral
 channels:
+  - defaults
   - conda-forge
 dependencies:
   - scikit-learn
