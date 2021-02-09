@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/theonlyid/spectral.svg?branch=master)](https://travis-ci.com/theonlyid/spectral)
+
 # Spectral: a toolbox for neural timeseries analysis
 
 ## Table of contents
