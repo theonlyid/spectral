@@ -64,11 +64,17 @@ def contrast(data, y, **kwargs):
     
     # compute mean power over every permutation of bands
     print("normalizing matrices... this may take a few minutes...")
-    t, b = get_bands(ds[:,:,:,y==1], ds[:,:,:,y==0], f)
+    t, b = get_bands(ds[:,:,:,y==1], ds[:,:,:,y==0], f, **kwargs)
     
     # calculate the snr
     print("obtaining snr...")
     snr = get_snr(t, b)
+    
+    # Return the correct vector f
+    fmin = int(kwargs['fmin']) if 'fmin' in kwargs else min(f)
+    fmax = int(kwargs['fmax']) if 'fmax' in kwargs else max(f)
+    fidx = [i for i in range(len(f)) if f[i]>=fmin and f[i]<=fmax]
+    f = f[fidx]
     
     return snr, f
 
@@ -187,12 +193,14 @@ def get_bands(target_stft_norm, baseline_stft_norm, f, **kwargs):
         same as `target_bands` [nchan x nfreqs x nfreqs x nobs x ntrials]
     """
     
-    data_array_norm = np.array(target_stft_norm)
-    baseline_array_norm = np.array(baseline_stft_norm)
-
-    fmax = int(kwargs['fmax']) if 'fmax' in kwargs else 500
-    fidx = f < fmax
-    fnum = f[fidx].size
+    fmin = int(kwargs['fmin']) if 'fmin' in kwargs else min(f)
+    fmax = int(kwargs['fmax']) if 'fmax' in kwargs else max(f)
+    fidx = [i for i in range(len(f)) if f[i]>=fmin and f[i]<=fmax]
+    f = f[fidx]
+    fnum = len(f)
+    
+    data_array_norm = np.array(target_stft_norm[:,fidx,:,:])
+    baseline_array_norm = np.array(baseline_stft_norm[:,fidx,:,:])
 
     band_tot = np.empty((fnum, fnum, data_array_norm.shape[0], data_array_norm.shape[2], data_array_norm.shape[3]))
     band_tot_bl = np.empty((fnum, fnum, baseline_array_norm.shape[0], baseline_array_norm.shape[2], baseline_array_norm.shape[3]))
@@ -344,7 +352,7 @@ def test():
     # s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,2:], f)
+    t, b = get_bands(ds[:,:,:,:2], ds[:,:,:,2:], f, fmin=5, fmax=20)
     snr = get_snr(t, b)
     
     return np.isclose(np.mean(snr.ravel()), 0)

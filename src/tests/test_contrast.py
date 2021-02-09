@@ -16,8 +16,8 @@ def test_contrast():
         nsamples=100,
         nepochs=10,
         fs=100,
-        nperseg=640,
-        noverlap=480,
+        nperseg=64,
+        noverlap=40,
         seed=42)
 
     y = [0,0,0,0,0, 1,1,1,1,1]
