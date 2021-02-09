@@ -9,6 +9,12 @@ def test_import():
     module_name = 'contrast'
     # print(sys.modules)
     assert module_name in globals()
+    
+def test_decimate():
+    d = np.zeros((5,100,10))
+    d_d = contrast.decimate(d, 10)
+    
+    assert d.shape[1] // d_d.shape[1] == 10
 
 def test_contrast():
     data = contrast.simulate_recording(

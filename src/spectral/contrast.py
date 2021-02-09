@@ -257,6 +257,27 @@ def _div0( a, b ):
         c[ ~ np.isfinite( c )] = 0  # -inf inf NaN
     return c
 
+def decimate(x, n, **kwargs):
+    """
+    Downsample the data in a data array by a factor of n.
+    
+    Parameters
+    ----------
+    x: data array [nchan x nobs x ntrials]
+        the data array to be analyzed.
+    
+    n: int
+        the downsampling factor
+
+    Returns
+    -------
+    data_dec: array [nchan x nobs/n x ntrials]
+        downsampled array
+    """
+    
+    data_dec = signal.decimate(x, n, axis=1)
+    return data_dec
+
 def generate_ts(nsamples=200, fs=100, **kwargs):
     """
     Generates an LFP-like timeseries sampled at fs obeying the power law.
