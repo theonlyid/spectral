@@ -29,7 +29,7 @@ install:
   - source activate spectral
 
 script:
-  - pytest --cov=./ # will run all tests in the package
+  - pytest --cov # will run all tests in the package
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
