@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/theonlyid/spectral.svg?branch=master)](https://travis-ci.com/theonlyid/spectral)
+[![codecov](https://codecov.io/gh/theonlyid/spectral/branch/master/graph/badge.svg?token=0Y4MS7INZV)](https://codecov.io/gh/theonlyid/spectral)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Spectral: a toolbox for neural timeseries analysis
