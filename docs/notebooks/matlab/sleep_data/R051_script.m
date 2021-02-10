@@ -3,20 +3,15 @@ load('.\data\sleep\RC_051_sleep.mat')
 
 %% Import libraries
 np = py.importlib.import_module('numpy');
-sc = py.importlib.import_module('src.spectral.contrast');
-
-%% Downsample data
-
-data_s = sc.decimate(data, int32(10));
-data_s = double(squeeze(np.array(data_s)));
+sc = py.importlib.import_module('spectral.contrast');
 
 %% Specify data-specific arguments
-args_con = pyargs('fs', int32(100), 'nperseg', int32(1024), 'noverlap', int32(128), 'fmin', int32(0), 'fmax', int32(30));
+args_con = pyargs('fs', int32(1000), 'nperseg', int32(2048), 'noverlap', int32(128), 'fmin', int32(0), 'fmax', int32(30));
 % Note: frequency resolution is fs/nperseg
 
 %% Crunch the numbers
 tic;
-res = sc.contrast(data_s, y, args_con);
+res = sc.contrast(data, y, args_con);
 time = toc;
 
 disp("Time taken: " + time + " seconds")

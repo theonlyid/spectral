@@ -49,15 +49,23 @@ The root directory has two subdirs: src and docs.
 
 Install [Anaconda version 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) by clicking the link and following the default setup instructions.
 
+#### Installing the module spectral
+
+Install the package using:
+
+```bash
+$python setup.py install
+```
+
 #### Calling Python from Matlab <a name="callpython"></a>
 
-Since Matlab needs to access python libraries, it is important to configure some paths. A template file (Matlab.bat.template) exists in root directory, which needs to be modified by updating two paths at lines 3 and 5.
+Since Matlab needs to access python libraries, it is important to configure some paths.
 
 1. From the Start Menu, launch the Anaconda Powershell prompt (Start Menu > Anaconda3 (64-bit) > Anaconda Powershell Prompt (anaconda3)).
 
 2. Navigate to the root directory. This is the directory where the contents of this repository reside.
 
-3. Run ```python setup.py```. Wait for the prompt to confirm a 'Success!'. This should write a 'Matlab.bat' file in the current folder.
+3. Run ```python setup_matlab.py```. Wait for the prompt to confirm a 'Success!'. This should write a 'Matlab.bat' file in the current folder.
 
 4. Copy the statement above the last line of the installation prompt. It starts with ```pyversion```. This needs to be entered in Matlab, as described below.
 
@@ -85,10 +93,16 @@ Each python module can be used as an independent module or together with the ful
 
 #### Python
 
-Start python in the project root and call:
+Start python and call:
 
 ```python
->> from src import spectral
+>> import spectral
+```
+
+or
+
+```python
+>> from spectral import contrast as sc
 ```
 
 #### Matlab
@@ -98,7 +112,7 @@ Use the matlab.bat file in the project root folder to start Matlab.
 From Matlab, import the necessary libraries:
 
 ```java
->> spectral = py.importlib.import_module("src.spectral")
+>> spectral = py.importlib.import_module("spectral")
 ```
 
 You can then query the modules, submodules and all methods in the module
@@ -120,20 +134,20 @@ Open [gitignore](.gitignore) for a complete list of files/folders ignored.
 
 #### Folders
 
-Ignoring an entire folder is very easy. Create a text document titled ".gitnore" and add the asterisk (*) symbol in the document and save it. This will ignore the entire folder. You can save data and custom scripts in such folders.
+Ignoring an entire folder is very easy. Create a text document titled ".gitignore" and add the asterisk (*) symbol in the document and save it. This will ignore the entire folder. You can save data and custom scripts in such folders.
 
 ## 4. Documentation <a name="docs"></a>
 
-The modules have documentation in HTML and PDF format in the docs folder. There are also example notebooks. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/spectral/html/index.html.
+The modules have documentation in HTML and PDF format in the docs folder. There are also example notebooks. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/html/index.html.
 
 For a quick overview of documentation while browsing the repo online, the PDF
-version can be accessed from [docs/spectral/documentation.pdf](docs/spectral/documentation.pdf).
+version can be accessed from [docs/spectral/documentation.pdf](docs/documentation.pdf).
 
 ### Example notebooks
 
 Post installation, a good place to start is example notebooks. They can be found in the docs, within the subfolder for each module.
 
-For Spectral, the notebooks can be found [here](/docs/spectral/notebooks/).
+For Spectral, the notebooks can be found [here](/docs/notebooks/).
 
 ## 5. FAQS <a name="faqs"></a>
 

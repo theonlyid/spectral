@@ -2,6 +2,7 @@
 __pycache*
 .ipynb_*
 .pytest_*
+build/
 
 # Image files
 *.eps
