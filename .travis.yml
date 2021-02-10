@@ -19,9 +19,10 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
+  - travis_wait mvn install
+
 
 install:
-  - travis_wait mvn install
 
   # We just set up a conda environment with the right Python version. This
   # should not need changing.
