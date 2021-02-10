@@ -2,10 +2,10 @@ language: python
 
 matrix:
   include:
-    - python: 3.5
-    - python: 3.6
+    # - python: 3.5
+    # - python: 3.6
     - python: 3.7
-    - python: 3.8
+    # - python: 3.8
 
 before_install:
 
@@ -26,12 +26,12 @@ install:
   # We just set up a conda environment with the right Python version. This
   # should not need changing.
 
-  - travis_wait 30 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - travis_wait 60 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
   - python setup.py install
 
 script:
-  - pytest src/spectral/ --cov # will run all tests in the package
+  - pytest --cov # will run all tests in the package
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
