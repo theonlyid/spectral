@@ -27,7 +27,8 @@ jobs:
       run: |
         conda env update --file src/deps/environment.yml --name base
     - name: Install package
-      run: python install setup.py
+      run: |
+        python install setup.py
     - name: Test with pytest
       run: |
         conda install pytest
