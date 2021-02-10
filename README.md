@@ -1,7 +1,10 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![](https://img.shields.io/badge/Anaconda-3.7-blue)
+![Version: 1.0](https://img.shields.io/badge/Version-1.0-green)
 [![Build Status](https://travis-ci.com/theonlyid/spectral.svg?branch=master)](https://travis-ci.com/theonlyid/spectral)
 [![codecov](https://codecov.io/gh/theonlyid/spectral/branch/master/graph/badge.svg?token=0Y4MS7INZV)](https://codecov.io/gh/theonlyid/spectral)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theonlyid/spectral/master)
 
 # Spectral: a toolbox for neural timeseries analysis (v1.0)
 
@@ -35,7 +38,7 @@ Contains Matlab and Python scripts for Spectral, a toolbox for neural timeseries
 
 The root directory has two subdirs: src and docs.
 
-**src** houses all source-code. It has an [about.md](/docs/about.md) file on how to add and maintain sourcecode
+**src** houses all source-code for the module and submodules.
 
 **docs** houses all documentation. Each module has its own sub-directory.
 
@@ -45,11 +48,11 @@ The root directory has two subdirs: src and docs.
 
 #### Installing Anaconda <a name='installanaconda'></a>
 
-Install [Anaconda version 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) by clicking the link and following the default setup instructions.
+Install [Anaconda 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) by clicking the link and following the default setup instructions.
 
 #### Installing Spectral
 
-Install the package using:
+Install the package using setup.py:
 
 ```bash
 $ python setup.py install
@@ -239,9 +242,7 @@ version can be accessed from [docs/spectral/documentation.pdf](docs/documentatio
 
 ### Example notebooks
 
-Post installation, a good place to start is example notebooks. They can be found in the docs, within the subfolder for each module.
-
-For Spectral, the notebooks can be found [here](/docs/notebooks/).
+Post installation, a good place to start is example notebooks. They can be found in the docs, within the subfolder for each module. The notebooks can be found [here](/docs/notebooks/).
 
 ## 6. FAQS <a name="faqs"></a>
 
