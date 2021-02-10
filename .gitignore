@@ -27,6 +27,7 @@ tmp_*
 
 # User specific files
 Matlab.bat
+documentation.md
 
 # Code coverage
 .coverage
