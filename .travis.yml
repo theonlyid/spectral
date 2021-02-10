@@ -21,6 +21,7 @@ before_install:
   - conda info -a
 
 install:
+  - travis_wait mvn install
 
   # We just set up a conda environment with the right Python version. This
   # should not need changing.
