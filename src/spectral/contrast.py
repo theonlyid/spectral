@@ -176,8 +176,7 @@ def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
 
     # Calculate the short-time fourrier transform
     f, _, data_stft = signal.stft(
-        data_array, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1
-    )
+        data_array, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1, detrend='constant')
 
     # Make last axis as trials
     data_stft = np.moveaxis(np.abs(data_stft), 2, 3)
