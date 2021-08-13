@@ -31,3 +31,4 @@ documentation.md
 
 # Code coverage
 .coverage
+htmlcov/

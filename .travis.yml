@@ -23,8 +23,8 @@ before_install:
 
 install:
 
-  # We just set up a conda environment with the right Python version. This
-  # should not need changing.
+  # We just set up a conda environment with the right Python version.
+  # This should not need changing.
 
   - travis_wait 60 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
