@@ -27,3 +27,8 @@ def test_contrast():
     snr2, _ = contrast.contrast(data, y[::-1], fs=100, nperseg=64, noverlap=48)
 
     assert np.unique(snr1.ravel() == snr2.ravel())
+
+
+test_import()
+test_decimate()
+test_contrast()

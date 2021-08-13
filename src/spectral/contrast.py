@@ -176,7 +176,13 @@ def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
 
     # Calculate the short-time fourrier transform
     f, _, data_stft = signal.stft(
-        data_array, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1, detrend='constant')
+        data_array,
+        fs=fs,
+        nperseg=nperseg,
+        noverlap=noverlap,
+        axis=1,
+        detrend="constant",
+    )
 
     # Make last axis as trials
     data_stft = np.moveaxis(np.abs(data_stft), 2, 3)
@@ -435,13 +441,18 @@ def test():
     Returns `True` if everything works.
     """
     s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
-    # s = filter(s, 2, 40, fs=100, order=3)
+    s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f, fmin=5, fmax=20)
+    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
     snr = get_snr(t, b)
+    
+    y=np.ones((s.shape[-1]))
+    y[2:]=0
+    
+    snr2, _ = contrast(s, y)
 
-    return np.isclose(np.mean(snr.ravel()), 0)
+    assert np.allclose(snr, snr2)
 
 
 def filter(data, low_pass, high_pass, fs, order=4):
