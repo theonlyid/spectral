@@ -31,6 +31,8 @@ def contrast(data, y, **kwargs):
         number of samples per fft
     **noverlap: param (int)
         number of samples of overlap between successive ffts
+    **DEBUG: param (bool)
+        Flag for printing debugging output
         
     Returns
     -------
@@ -55,27 +57,31 @@ def contrast(data, y, **kwargs):
         noverlap = int(kwargs["noverlap"])
     else:
         noverlap = 3 * (nperseg // 4)
+        
+    if "DEBUG" in kwargs:
+        DEBUG = bool(kwargs["DEBUG"])
+    else: DEBUG = False
 
     # convert input to numpy array (precautionarily)
     data = np.array(data)
     y = np.array(y)
 
     # get normalization array
-    print("Obtain normalization array...")
+    if DEBUG: print("Obtain normalization array...")
     norm = get_norm_array(data, fs=fs, nperseg=nperseg, noverlap=noverlap)
 
     # decompose data
-    print("calculating stft...")
+    if DEBUG: print("calculating stft...")
     ds, f = get_stft(
         data, norm_array=norm, normalize=True, fs=fs, nperseg=nperseg, noverlap=noverlap
     )
 
     # compute mean power over every permutation of bands
-    print("normalizing matrices... this may take a few minutes...")
+    if DEBUG: print("normalizing matrices... this may take a few minutes...")
     t, b = get_bands(ds[:, :, :, y == 1], ds[:, :, :, y == 0], f, **kwargs)
 
     # calculate the snr
-    print("obtaining snr...")
+    if DEBUG: print("obtaining snr...")
     snr = get_snr(t, b)
 
     # Return the correct vector f
@@ -440,19 +446,21 @@ def test():
     
     Returns `True` if everything works.
     """
-    s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
+    s = simulate_recording(nchans=10, nsamples=1000, fs=1000, nepochs=10, seed=42)
+    s = decimate(s, 10)
     s = filter(s, 2, 40, fs=100, order=3)
-    norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
-    ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
-    snr = get_snr(t, b)
-    
-    y=np.ones((s.shape[-1]))
-    y[2:]=0
-    
+    # norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
+    # ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
+    # t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
+    # snr = get_snr(t, b)
+
+    y = np.ones((s.shape[-1]))
+    y[2:] = 0
+
+    snr, _ = contrast(s, y, fs=100, nperseg=64, noverlap=48)
     snr2, _ = contrast(s, y)
 
-    assert np.allclose(snr, snr2)
+    return np.allclose(snr, snr2)
 
 
 def filter(data, low_pass, high_pass, fs, order=4):

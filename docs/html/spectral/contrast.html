@@ -204,7 +204,12 @@ def get_stft(data_array, norm_array=[], normalize=True, **kwargs):
 
     # Calculate the short-time fourrier transform
     f, _, data_stft = signal.stft(
-        data_array, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1
+        data_array,
+        fs=fs,
+        nperseg=nperseg,
+        noverlap=noverlap,
+        axis=1,
+        detrend=&#34;constant&#34;,
     )
 
     # Make last axis as trials
@@ -463,14 +468,20 @@ def test():
     
     Returns `True` if everything works.
     &#34;&#34;&#34;
-    s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
-    # s = filter(s, 2, 40, fs=100, order=3)
+    s = simulate_recording(nchans=10, nsamples=1000, fs=1000, nepochs=10, seed=42)
+    s = decimate(s, 10)
+    s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f, fmin=5, fmax=20)
+    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
     snr = get_snr(t, b)
 
-    return np.isclose(np.mean(snr.ravel()), 0)
+    y = np.ones((s.shape[-1]))
+    y[2:] = 0
+
+    snr2, _ = contrast(s, y)
+
+    assert np.allclose(snr, snr2)
 
 
 def filter(data, low_pass, high_pass, fs, order=4):
@@ -1055,7 +1066,12 @@ if __name__ == &#34;__main__&#34;:
 
     # Calculate the short-time fourrier transform
     f, _, data_stft = signal.stft(
-        data_array, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1
+        data_array,
+        fs=fs,
+        nperseg=nperseg,
+        noverlap=noverlap,
+        axis=1,
+        detrend=&#34;constant&#34;,
     )
 
     # Make last axis as trials
@@ -1147,14 +1163,20 @@ if __name__ == &#34;__main__&#34;:
     
     Returns `True` if everything works.
     &#34;&#34;&#34;
-    s = simulate_recording(nchans=10, nsamples=100, fs=100, nepochs=10, seed=42)
-    # s = filter(s, 2, 40, fs=100, order=3)
+    s = simulate_recording(nchans=10, nsamples=1000, fs=1000, nepochs=10, seed=42)
+    s = decimate(s, 10)
+    s = filter(s, 2, 40, fs=100, order=3)
     norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
     ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f, fmin=5, fmax=20)
+    t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
     snr = get_snr(t, b)
 
-    return np.isclose(np.mean(snr.ravel()), 0)</code></pre>
+    y = np.ones((s.shape[-1]))
+    y[2:] = 0
+
+    snr2, _ = contrast(s, y)
+
+    assert np.allclose(snr, snr2)</code></pre>
 </details>
 </dd>
 </dl>
