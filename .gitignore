@@ -19,7 +19,7 @@ build/
 *.mlx
 
 # Any data folders
-data/
+data
 
 # Temporary files starting with temp_
 temp_*
