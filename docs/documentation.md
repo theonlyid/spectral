@@ -1,6 +1,6 @@
 ---
 description: |
-    API documentation for modules: spectral, spectral.classify, spectral.cluster, spectral.contrast, spectral.test_contrast.
+    API documentation for modules: spectral, spectral.classify, spectral.cluster, spectral.contrast.
 
 lang: en
 
@@ -44,7 +44,6 @@ Version 0.1
 * [spectral.classify](#spectral.classify)
 * [spectral.cluster](#spectral.cluster)
 * [spectral.contrast](#spectral.contrast)
-* [spectral.test_contrast](#spectral.test_contrast)
 
 
 
@@ -74,12 +73,8 @@ present within the timeseries data, that have been identified.
 
 
 
-
->     def classifySVM(
->         self,
->         X,
->         y
->     )
+    
+> `def classifySVM(self, X, y)`
 
 
 Trains an SVM-classifier on the data.
@@ -109,12 +104,8 @@ Trains an SVM-classifier on the data.
 
 
 
-
->     def generate_features(
->         data,
->         labels,
->         **kwargs
->     )
+    
+> `def generate_features(data, labels, **kwargs)`
 
 
 Generate a feature vector for training a classifier
@@ -164,11 +155,8 @@ This facilitates the identification of various events (defined as transient spat
 
 
 
-
->     def cluster(
->         data,
->         **kwargs
->     )
+    
+> `def cluster(data, **kwargs)`
 
 
 Clusters the array using OPTICS and dbscan. Finds the best number of clusters.
@@ -194,11 +182,8 @@ Clusters the array using OPTICS and dbscan. Finds the best number of clusters.
 
 
 
-
->     def embed(
->         data_stft_norm,
->         **kwargs
->     )
+    
+> `def embed(data_stft_norm, **kwargs)`
 
 
 Returns a low-dimensional embedding of an STFT array.
@@ -222,11 +207,8 @@ Returns a low-dimensional embedding of an STFT array.
 
 
 
-
->     def stft_norm(
->         data,
->         **kwargs
->     )
+    
+> `def stft_norm(data, **kwargs)`
 
 
 Returns the frequency-normalized STFT for timeseries data.
@@ -281,12 +263,8 @@ The set of methods are aimed at finding the frequency bands that enable the maxi
 
 
 
-
->     def contrast(
->         data,
->         y,
->         **kwargs
->     )
+    
+> `def contrast(data, y, **kwargs)`
 
 
 This method returns the SNR given a data array and vector of labels.
@@ -326,18 +304,39 @@ Ideally, this should be the only method that you need to call when contrasting t
 
 
     
+### Function `decimate` {#spectral.contrast.decimate}
+
+
+
+    
+> `def decimate(x, n, **kwargs)`
+
+
+Downsample the data in a data array by a factor of n.
+
+###### Parameters
+
+**```x```** :&ensp;<code>data array \[nchan x nobs x ntrials]</code>
+:   the data array to be analyzed.
+
+
+**```n```** :&ensp;<code>int</code>
+:   the downsampling factor
+
+###### Returns
+
+**```data_dec```** :&ensp;`array [nchan x nobs/n x ntrials]`
+:   downsampled array
+
+
+
+    
 ### Function `filter` {#spectral.contrast.filter}
 
 
 
-
->     def filter(
->         data,
->         low_pass,
->         high_pass,
->         fs,
->         order=4
->     )
+    
+> `def filter(data, low_pass, high_pass, fs, order=4)`
 
 
 Generates an n-th order butterworth filter and performs forward-backward pass on the signal.
@@ -375,12 +374,8 @@ Generates an n-th order butterworth filter and performs forward-backward pass on
 
 
 
-
->     def generate_ts(
->         nsamples,
->         fs,
->         **kwargs
->     )
+    
+> `def generate_ts(nsamples=200, fs=100, **kwargs)`
 
 
 Generates an LFP-like timeseries sampled at fs obeying the power law.
@@ -390,12 +385,8 @@ Generates an LFP-like timeseries sampled at fs obeying the power law.
 
 
 
-
->     def get_bands(
->         target_stft_norm,
->         baseline_stft_norm,
->         f
->     )
+    
+> `def get_bands(target_stft_norm, baseline_stft_norm, f, **kwargs)`
 
 
 Calculates the mean power across all possible combinations of frequencies for each channel.
@@ -429,11 +420,8 @@ Calculates the mean power across all possible combinations of frequencies for ea
 
 
 
-
->     def get_norm_array(
->         data,
->         **kwargs
->     )
+    
+> `def get_norm_array(data, **kwargs)`
 
 
 Returns the normalization array for timeseries data.
@@ -467,11 +455,8 @@ Returns the normalization array for timeseries data.
 
 
 
-
->     def get_snr(
->         target,
->         baseline
->     )
+    
+> `def get_snr(target, baseline)`
 
 
 Returns the SNR given two vectors: target and baseline.
@@ -497,13 +482,8 @@ Returns the SNR given two vectors: target and baseline.
 
 
 
-
->     def get_stft(
->         data_array,
->         norm_array=[],
->         normalize=True,
->         **kwargs
->     )
+    
+> `def get_stft(data_array, norm_array=[], normalize=True, **kwargs)`
 
 
 Returns the STFT for timeseries data.
@@ -545,10 +525,8 @@ Returns the STFT for timeseries data.
 
 
 
-
->     def simulate_recording(
->         **kwargs
->     )
+    
+> `def simulate_recording(**kwargs)`
 
 
 Simulates an LFP recording with bursts in power of certain bands.
@@ -558,8 +536,8 @@ Simulates an LFP recording with bursts in power of certain bands.
 
 
 
-
->     def test()
+    
+> `def test()`
 
 
 Simple test method to ensure that the pipeline and dependencies work.
@@ -568,31 +546,5 @@ Returns <code>True</code> if everything works.
 
 
 
-
-    
-# Module `spectral.test_contrast` {#spectral.test_contrast}
-
-
-
-
-
-
-    
-## Functions
-
-
-    
-### Function `test_contrast` {#spectral.test_contrast.test_contrast}
-
-
-
-
->     def test_contrast()
-
-
-
-
-
-
 -----
-Generated by *pdoc* 0.8.4 (<https://pdoc3.github.io>).
+Generated by *pdoc* 0.8.1 (<https://pdoc3.github.io>).

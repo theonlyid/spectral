@@ -13,6 +13,7 @@ import numpy as np
 from sklearn.cluster import OPTICS, cluster_optics_dbscan
 from sklearn.metrics import calinski_harabasz_score
 
+
 def stft_norm(data, **kwargs):
     """
     Returns the frequency-normalized STFT for timeseries data.
@@ -35,13 +36,13 @@ def stft_norm(data, **kwargs):
     f: array
         an array of the frequencies of the STFT transform
     """
-    
-    nperseg=1024
-    noverlap=3*nperseg//4
+
+    nperseg = 1024
+    noverlap = 3 * nperseg // 4
 
     f, t, data_stft = stft(data, fs=1000, nperseg=nperseg, noverlap=noverlap, axis=1)
-    data_stft = np.abs(np.squeeze(data_stft)) # Required for normalization
-    data_stft = data_stft[:200,10:-10]
+    data_stft = np.abs(np.squeeze(data_stft))  # Required for normalization
+    data_stft = data_stft[:200, 10:-10]
     t = t[10:-10]
     f = f[:200]
 
@@ -53,19 +54,20 @@ def stft_norm(data, **kwargs):
 
     data_stft_norm = data_stft / dsm_r
 
-    dsm = np.mean(data_stft_norm, axis=(0,1))
+    dsm = np.mean(data_stft_norm, axis=(0, 1))
     dsm_r = np.repeat(dsm, data_stft_norm.shape[0], axis=0)
     dsm_r = np.repeat(dsm_r[:, np.newaxis], data_stft_norm.shape[1], axis=1)
 
-    dsd = np.std(data_stft_norm, axis=(0,1))
+    dsd = np.std(data_stft_norm, axis=(0, 1))
     dsd_r = np.repeat(dsd, data_stft_norm.shape[0], axis=0)
     dsd_r = np.repeat(dsd_r[:, np.newaxis], data_stft_norm.shape[1], axis=1)
 
     data_stft_norm = (data_stft_norm - dsm_r) / dsd_r
-    data_stft_norm = data_stft_norm[:,10:-10]
+    data_stft_norm = data_stft_norm[:, 10:-10]
     t = t[10:-10]
-    
+
     return data_stft_norm, t
+
 
 def embed(data_stft_norm, **kwargs):
     """
@@ -81,10 +83,11 @@ def embed(data_stft_norm, **kwargs):
     embedding: array
         low dimensional embedding of the STFT array
     """
-    
+
     manifold = UMAP(min_dist=0.0001)
     embedding = manifold.fit_transform(data_stft_norm.T)
     return embedding
+
 
 def cluster(data, **kwargs):
     """
@@ -103,25 +106,28 @@ def cluster(data, **kwargs):
         number of clusters identified
     """
 
-    clust = OPTICS(min_samples=20, xi=.05, min_cluster_size=.1, n_jobs=-1)
+    clust = OPTICS(min_samples=20, xi=0.05, min_cluster_size=0.1, n_jobs=-1)
     clust.fit(data)
 
-    epsilon = np.arange(0, 2, step=.01)
+    epsilon = np.arange(0, 2, step=0.01)
 
     ncl = np.array([])
     res = np.array([])
 
     for e in epsilon:
-        labels = cluster_optics_dbscan(reachability=clust.reachability_,
-                                    core_distances=clust.core_distances_,
-                                    ordering=clust.ordering_, eps=e)
-        
-        ncl = np.append(ncl, len(np.unique(labels[labels>-1])))
+        labels = cluster_optics_dbscan(
+            reachability=clust.reachability_,
+            core_distances=clust.core_distances_,
+            ordering=clust.ordering_,
+            eps=e,
+        )
+
+        ncl = np.append(ncl, len(np.unique(labels[labels > -1])))
         if ncl[-1] <= 1:
             res = np.append(res, 0)
         else:
-            res = np.append(res, calanski_harabasz_score(data, labels))
+            res = np.append(res, calinski_harabasz_score(data, labels))
 
     nclust = np.unique(ncl)
-    
+
     return res, nclust

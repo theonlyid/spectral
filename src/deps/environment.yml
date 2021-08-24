@@ -1,0 +1,12 @@
+name: spectral
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - scikit-learn
+  - numpy
+  - scipy
+  - pytest
+  - pytest-cov
+  - umap-learn
+  - matplotlib
