@@ -14,7 +14,7 @@
 
 % Import libraries
 np = py.importlib.import_module('numpy');
-sc = py.importlib.import_module('src.spectral.contrast');
+sc = py.importlib.import_module('spectral.contrast');
 % Passing keyword arguments to Python
 % Python converts keyword arguments to dictionaries. For Matlab users, keyword 
 % arguments need to be converted to a python object using |*pyargs*|. This function 
