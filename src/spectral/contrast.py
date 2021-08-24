@@ -9,10 +9,10 @@ The set of methods are aimed at finding the frequency bands that enable the maxi
 from __future__ import absolute_import, print_function
 import numpy as np
 from scipy import signal
-import math
+from data_handling import dataset
 
 # Code starts here
-def contrast(data, y, **kwargs):
+def contrast(data: dataset, y, **kwargs):
     """
     This method returns the SNR given a data array and vector of labels.
     
@@ -346,83 +346,6 @@ def decimate(x, n, **kwargs):
 
     data_dec = signal.decimate(x, n, axis=1)
     return data_dec
-
-
-def generate_ts(nsamples=200, fs=100, **kwargs):
-    """
-    Generates an LFP-like timeseries sampled at fs obeying the power law.
-    """
-    # For unit test
-    if "seed" in kwargs:
-        seed = int(kwargs["seed"])
-    else:
-        seed = np.random.uniform(1, 100)
-
-    # Generate some pink noise
-    t = np.arange(nsamples)  # timesteps
-    f = 2 * np.pi * t / fs  # frequency (in radians)
-
-    # generate random complex series
-    n = np.zeros((nsamples,), dtype=complex)
-    np.random.seed = seed
-    n = np.exp(1j * (2 * np.pi * np.random.rand(nsamples,)))
-    n[0] = 0
-    # n *= 100 # make the spectrum stronger
-
-    # Add some LFP-like components
-    # TODO: Finish writing this function
-    mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
-    n = n - min(np.real(n))
-    mean = np.random.randint(10, len(f))
-    var = 3 * len(f) / mean
-    n_new = n + [mix(i, mean, var) for i in range(len(n))]
-    n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
-
-    # generate the timeseries
-    s = np.real(np.fft.ifft(n))
-    return s
-
-
-def simulate_recording(**kwargs):
-    """
-    Simulates an LFP recording with bursts in power of certain bands.
-    """
-
-    if "nchans" in kwargs:
-        nchans = int(kwargs["nchans"])
-    else:
-        nchans = 10
-
-    if "nsamples" in kwargs:
-        nsamples = int(kwargs["nsamples"])
-    else:
-        nsamples = 1000
-
-    if "fs" in kwargs:
-        fs = int(kwargs["fs"])
-    else:
-        fs = 1000
-
-    if "nepochs" in kwargs:
-        nepochs = int(kwargs["nepochs"])
-    else:
-        nepochs = 10
-
-    if "seed" in kwargs:
-        seed = int(kwargs["seed"])
-    else:
-        seed = np.random.uniform(1, 100)
-
-    # create empty array
-    dat = np.empty((nchans, nsamples))
-
-    # fill array with pink noise
-    for i in range(dat.shape[0]):
-        dat[i, :] = generate_ts(nsamples=nsamples, fs=fs, seed=seed)
-
-    dat = np.repeat(dat[:, :, np.newaxis], nepochs, axis=-1)
-
-    return dat
 
 
 def __get_f_from_idx(idx, f):
