@@ -2,6 +2,7 @@
 __pycache*
 .ipynb_*
 .pytest_*
+build/
 
 # Image files
 *.eps
@@ -18,7 +19,7 @@ __pycache*
 *.mlx
 
 # Any data folders
-data/
+data
 
 # Temporary files starting with temp_
 temp_*
@@ -26,3 +27,8 @@ tmp_*
 
 # User specific files
 Matlab.bat
+documentation.md
+
+# Code coverage
+.coverage
+htmlcov/
