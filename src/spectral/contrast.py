@@ -57,31 +57,36 @@ def contrast(data, y, **kwargs):
         noverlap = int(kwargs["noverlap"])
     else:
         noverlap = 3 * (nperseg // 4)
-        
+
     if "DEBUG" in kwargs:
         DEBUG = bool(kwargs["DEBUG"])
-    else: DEBUG = False
+    else:
+        DEBUG = False
 
     # convert input to numpy array (precautionarily)
     data = np.array(data)
     y = np.array(y)
 
     # get normalization array
-    if DEBUG: print("Obtain normalization array...")
+    if DEBUG:
+        print("Obtain normalization array...")
     norm = get_norm_array(data, fs=fs, nperseg=nperseg, noverlap=noverlap)
 
     # decompose data
-    if DEBUG: print("calculating stft...")
+    if DEBUG:
+        print("calculating stft...")
     ds, f = get_stft(
         data, norm_array=norm, normalize=True, fs=fs, nperseg=nperseg, noverlap=noverlap
     )
 
     # compute mean power over every permutation of bands
-    if DEBUG: print("normalizing matrices... this may take a few minutes...")
+    if DEBUG:
+        print("normalizing matrices... this may take a few minutes...")
     t, b = get_bands(ds[:, :, :, y == 1], ds[:, :, :, y == 0], f, **kwargs)
 
     # calculate the snr
-    if DEBUG: print("obtaining snr...")
+    if DEBUG:
+        print("obtaining snr...")
     snr = get_snr(t, b)
 
     # Return the correct vector f
