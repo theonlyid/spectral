@@ -31,10 +31,10 @@ class data_array:
 
     def __post_init__(self):
         if self.simulate:
-            self.simulate_recording()
+            self.simulate_recording(fs=self.fs, nsamples=self.fs)
 
     def __repr__(self) -> str:
-        return f"data_array(shape={self.data_array.shape}, dtype={self.data_array.dtype}, nchannels={self.nchannels}, ntrials={self.ntrials})"
+        return f"data_array(shape={self.data_array.shape}, fs={self.fs}, dtype={self.data_array.dtype}, nchannels={self.nchannels}, ntrials={self.ntrials})"
 
     def generate_ts(self, nsamples=200, fs=100, **kwargs):
         """
@@ -109,7 +109,7 @@ class data_array:
 
         dat = np.repeat(dat[:, :, np.newaxis], nepochs, axis=-1)
 
-        self.data = dat
+        self.data_array = dat
         self.nchannels = dat.shape[0]
         self.ntrials = dat.shape[-1]
 
@@ -122,7 +122,7 @@ class dataset:
 
 def main():
     params = tsparams(nperseg=64, noverlap=48)
-    da = data_array(simulate=True)
+    da = data_array(fs=1000, simulate=True)
     data = dataset(da, params)
     return data
 
