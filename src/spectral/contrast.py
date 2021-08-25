@@ -76,9 +76,7 @@ def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     return snr, f
 
 
-def get_norm_array(
-    data: np.ndarray, fs: int = 100, nperseg: int = 64, noverlap: int = 48, **kwargs
-):
+def get_norm_array(data: np.ndarray, fs=100, nperseg=64, noverlap=48, **kwargs):
     """
     Returns the normalization array for timeseries data.
     
