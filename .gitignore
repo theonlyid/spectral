@@ -4,6 +4,9 @@ __pycache*
 .pytest_*
 build/
 
+# logs
+logs/
+
 # Image files
 *.eps
 *.ai
