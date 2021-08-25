@@ -38,7 +38,7 @@ class DataArray:
     """
 
     data: np.ndarray = np.empty((1, 1, 1), dtype=np.float)
-    dtype: str = np.float
+    dtype: np.dtype = np.float64
     fs: int = 100
     nchannels: int = data.shape[0]
     ntrials: int = data.shape[-1]
@@ -122,13 +122,15 @@ class Dataset:
     params: TsParams = field(default_factory=TsParams)
 
 
-def main() -> np.ndarray:
+def main() -> None:
+    """
+    Method that demonstrates how to generate the Dataset object.
+    """
     params = TsParams(nperseg=64, noverlap=48)
     da = DataArray(fs=100, nchannels=12, ntrials=20, simulate=True)
     ds = Dataset(da, params)
-    return ds
+    print(ds)
 
 
 if __name__ == "__main__":
-    ds = main()
-    print(ds)
+    main()
