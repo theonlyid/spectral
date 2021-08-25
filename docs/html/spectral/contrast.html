@@ -104,9 +104,7 @@ def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     return snr, f
 
 
-def get_norm_array(
-    data: np.ndarray, fs: int = 100, nperseg: int = 64, noverlap: int = 48, **kwargs
-):
+def get_norm_array(data: np.ndarray, fs=100, nperseg=64, noverlap=48, **kwargs):
     &#34;&#34;&#34;
     Returns the normalization array for timeseries data.
     
@@ -712,7 +710,7 @@ See 'Dataset' class in data_handling.py for more information.</dd>
 </details>
 </dd>
 <dt id="spectral.contrast.get_norm_array"><code class="name flex">
-<span>def <span class="ident">get_norm_array</span></span>(<span>data: numpy.ndarray, fs: int = 100, nperseg: int = 64, noverlap: int = 48, **kwargs)</span>
+<span>def <span class="ident">get_norm_array</span></span>(<span>data: numpy.ndarray, fs=100, nperseg=64, noverlap=48, **kwargs)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the normalization array for timeseries data.</p>
@@ -736,9 +734,7 @@ See 'Dataset' class in data_handling.py for more information.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_norm_array(
-    data: np.ndarray, fs: int = 100, nperseg: int = 64, noverlap: int = 48, **kwargs
-):
+<pre><code class="python">def get_norm_array(data: np.ndarray, fs=100, nperseg=64, noverlap=48, **kwargs):
     &#34;&#34;&#34;
     Returns the normalization array for timeseries data.
     
