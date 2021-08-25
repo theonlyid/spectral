@@ -9,10 +9,10 @@ The set of methods are aimed at finding the frequency bands that enable the maxi
 from __future__ import absolute_import, print_function
 import numpy as np
 from scipy import signal
-from data_handling import dataset
+from spectral.data_handling import Dataset, TsParams, DataArray
 
 # Code starts here
-def contrast(data: dataset, y, **kwargs):
+def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     """
     This method returns the SNR given a data array and vector of labels.
     
@@ -20,17 +20,12 @@ def contrast(data: dataset, y, **kwargs):
     
     Parameters
     ----------
-    data: array [nchans x nobs x ntrials]
-        an array with the LFP data organized into channels and trials.
-    y: array [ntrials]
+    ds: Dataset object
+        an instance of Dataset containing LFP data and relevant parameters for signal processing.
+        See 'Dataset' class in data_handling.py for more information.
+    y: list [ntrials]
         a binary vector with a label for each trial being either 0 or 1
-    
-    **fs: int
-        the sampling frequency of the signal
-    **nperseg: param (int)
-        number of samples per fft
-    **noverlap: param (int)
-        number of samples of overlap between successive ffts
+        
     **DEBUG: param (bool)
         Flag for printing debugging output
         
@@ -41,51 +36,34 @@ def contrast(data: dataset, y, **kwargs):
     f: array [nfreqs]
         a vector that represents the frequencies for interpreting `snr`.
     """
-
-    # read stft params from function arguments
-    if "fs" in kwargs:
-        fs = int(kwargs["fs"])
-    else:
-        fs = 100
-
-    if "nperseg" in kwargs:
-        nperseg = int(kwargs["nperseg"])
-    else:
-        nperseg = 64
-
-    if "noverlap" in kwargs:
-        noverlap = int(kwargs["noverlap"])
-    else:
-        noverlap = 3 * (nperseg // 4)
-
-    if "DEBUG" in kwargs:
-        DEBUG = bool(kwargs["DEBUG"])
-    else:
-        DEBUG = False
-
-    # convert input to numpy array (precautionarily)
-    data = np.array(data)
+    
+    # Read params from the Dataset passed to the method
+    fs, nperseg, noverlap = ds.data_array.fs, ds.params.nperseg, ds.params.noverlap
+    
     y = np.array(y)
 
+    # convert input to numpy array (precautionarily)
+    data = ds.data_array.data
+
     # get normalization array
-    if DEBUG:
+    if debug:
         print("Obtain normalization array...")
     norm = get_norm_array(data, fs=fs, nperseg=nperseg, noverlap=noverlap)
 
     # decompose data
-    if DEBUG:
+    if debug:
         print("calculating stft...")
     ds, f = get_stft(
         data, norm_array=norm, normalize=True, fs=fs, nperseg=nperseg, noverlap=noverlap
     )
 
     # compute mean power over every permutation of bands
-    if DEBUG:
+    if debug:
         print("normalizing matrices... this may take a few minutes...")
     t, b = get_bands(ds[:, :, :, y == 1], ds[:, :, :, y == 0], f, **kwargs)
 
     # calculate the snr
-    if DEBUG:
+    if debug:
         print("obtaining snr...")
     snr = get_snr(t, b)
 
@@ -98,41 +76,29 @@ def contrast(data: dataset, y, **kwargs):
     return snr, f
 
 
-def get_norm_array(data, **kwargs):
+def get_norm_array(data: np.ndarray, fs: int=100, nperseg: int=64, noverlap: int=48, **kwargs):
     """
     Returns the normalization array for timeseries data.
     
     Parameters
     ----------
     data: array, timeseries data [nchan x nobs x ntrials]
-    **fs: int, sampling frequency in Hz
-    **nperseg: int, number of timepoints for stft window
-    **noverlap: int, number of timepoints for window overlap
+    fs: int, sampling frequency in Hz
+    nperseg: int, number of timepoints for stft window
+    noverlap: int, number of timepoints for window overlap
 
     Returns
     -------
     norm_array: normalized array with mean power per frequency [nchan x freqs]
     """
 
-    # Read stft params from function arguments
-    if "fs" in kwargs:
-        fs = int(kwargs["fs"])
-    else:
-        fs = 1000
-
-    if "nperseg" in kwargs:
-        nperseg = int(kwargs["nperseg"])
-    else:
-        nperseg = 64
-
-    if "noverlap" in kwargs:
-        noverlap = int(kwargs["noverlap"])
-    else:
-        noverlap = 3 * (nperseg // 4)
 
     # Get the STFT of the signals
     f, _, data_stft = signal.stft(
-        data, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1
+        data,
+        fs=fs,
+        nperseg=nperseg,
+        noverlap=noverlap, axis=1
     )
 
     data_stft = np.moveaxis(np.abs(data_stft), 2, 3)  # last axis is now ntrials
@@ -374,19 +340,17 @@ def test():
     
     Returns `True` if everything works.
     """
-    s = simulate_recording(nchans=10, nsamples=1000, fs=1000, nepochs=10, seed=42)
-    s = decimate(s, 10)
-    s = filter(s, 2, 40, fs=100, order=3)
-    # norm = get_norm_array(s, fs=100, nperseg=64, noverlap=48)
-    # ds, f = get_stft(s, norm_array=norm, fs=100, nperseg=64, noverlap=48)
-    # t, b = get_bands(ds[:, :, :, :2], ds[:, :, :, 2:], f)
-    # snr = get_snr(t, b)
+    params = TsParams(nperseg=64, noverlap=48)
+    da = DataArray(fs=1000, nchannels=10, ntrials=10, simulate=True)
+    ds = Dataset(da, params)
 
-    y = np.ones((s.shape[-1]))
+    ds.data_array.data = decimate(ds.data_array.data, 10)
+
+    y = np.ones((ds.data_array.data.shape[-1]))
     y[2:] = 0
 
-    snr, _ = contrast(s, y, fs=100, nperseg=64, noverlap=48)
-    snr2, _ = contrast(s, y)
+    snr, _ = contrast(ds, y, fs=100, nperseg=64, noverlap=48)
+    snr2, _ = contrast(ds, y)
 
     return np.allclose(snr, snr2)
 

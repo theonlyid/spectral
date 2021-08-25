@@ -1,4 +1,4 @@
-from spectral import contrast
+from spectral import contrast, data_handling
 import numpy as np
 
 
@@ -16,15 +16,17 @@ def test_decimate():
 
 
 def test_contrast():
-    data = contrast.simulate_recording(
-        nchans=10, nsamples=100, nepochs=10, fs=100, nperseg=64, noverlap=40, seed=42
-    )
+    params = data_handling.TsParams(nperseg=64, noverlap=48)
+    da = data_handling.DataArray(fs=1000, nchannels=10, ntrials=10, simulate=True)
+    ds = data_handling.Dataset(da, params)
 
-    y = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+    ds.data_array.data = contrast.decimate(ds.data_array.data, 10)
+    ds.data_array.fs = ds.data_array.fs//10
 
-    snr1, _ = contrast.contrast(data, y, fs=100, npserg=64, noverlap=48)
+    y = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
 
-    snr2, _ = contrast.contrast(data, y[::-1], fs=100, nperseg=64, noverlap=48)
+    snr1, _ = contrast.contrast(ds, y, fs=100, npserg=64, noverlap=48)
+    snr2, _ = contrast.contrast(ds, y[::-1], fs=100, nperseg=64, noverlap=48)
 
     assert np.unique(snr1.ravel() == snr2.ravel())
 
