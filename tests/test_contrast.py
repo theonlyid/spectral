@@ -21,7 +21,7 @@ def test_contrast():
     ds = data_handling.Dataset(da, params)
 
     ds.data_array.data = contrast.decimate(ds.data_array.data, 10)
-    ds.data_array.fs = ds.data_array.fs//10
+    ds.data_array.fs = ds.data_array.fs // 10
 
     y = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
 

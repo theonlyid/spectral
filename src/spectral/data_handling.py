@@ -36,6 +36,7 @@ class DataArray:
     noverlap: int
         number of samples of oveerlap in stft    
     """
+
     data: np.ndarray = np.empty((1, 1, 1), dtype=np.float)
     dtype: str = np.float
     fs: int = 100
@@ -45,8 +46,12 @@ class DataArray:
 
     def __post_init__(self):
         if self.simulate:
-            self.data = self.simulate_recording(fs=self.fs, nsamples=self.fs, ntrials=self.ntrials, nchannels=self.nchannels)
-            
+            self.data = self.simulate_recording(
+                fs=self.fs,
+                nsamples=self.fs,
+                ntrials=self.ntrials,
+                nchannels=self.nchannels,
+            )
 
     def __repr__(self) -> str:
         return f"DataArray(shape={self.data.shape}, fs={self.fs}, dtype={self.data.dtype}, nchannels={self.nchannels}, ntrials={self.ntrials})"
@@ -87,7 +92,9 @@ class DataArray:
         return s
 
     @classmethod
-    def simulate_recording(cls, nchannels=10, nsamples=1000, fs=100, ntrials=10, **kwargs) -> np.ndarray:
+    def simulate_recording(
+        cls, nchannels=10, nsamples=1000, fs=100, ntrials=10, **kwargs
+    ) -> np.ndarray:
         """
         Simulates a multi-channel LFP recording with bursts in power of certain bands.
         """
@@ -113,7 +120,6 @@ class DataArray:
 class Dataset:
     data_array: DataArray = field(default_factory=DataArray)
     params: TsParams = field(default_factory=TsParams)
-
 
 
 def main() -> np.ndarray:

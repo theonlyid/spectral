@@ -36,10 +36,10 @@ def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     f: array [nfreqs]
         a vector that represents the frequencies for interpreting `snr`.
     """
-    
+
     # Read params from the Dataset passed to the method
     fs, nperseg, noverlap = ds.data_array.fs, ds.params.nperseg, ds.params.noverlap
-    
+
     y = np.array(y)
 
     # convert input to numpy array (precautionarily)
@@ -76,7 +76,9 @@ def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     return snr, f
 
 
-def get_norm_array(data: np.ndarray, fs: int=100, nperseg: int=64, noverlap: int=48, **kwargs):
+def get_norm_array(
+    data: np.ndarray, fs: int = 100, nperseg: int = 64, noverlap: int = 48, **kwargs
+):
     """
     Returns the normalization array for timeseries data.
     
@@ -92,13 +94,9 @@ def get_norm_array(data: np.ndarray, fs: int=100, nperseg: int=64, noverlap: int
     norm_array: normalized array with mean power per frequency [nchan x freqs]
     """
 
-
     # Get the STFT of the signals
     f, _, data_stft = signal.stft(
-        data,
-        fs=fs,
-        nperseg=nperseg,
-        noverlap=noverlap, axis=1
+        data, fs=fs, nperseg=nperseg, noverlap=noverlap, axis=1
     )
 
     data_stft = np.moveaxis(np.abs(data_stft), 2, 3)  # last axis is now ntrials
