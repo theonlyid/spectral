@@ -7,7 +7,7 @@ LOGFILE="logs/prelease_checks-`(date +%F)`.log"
 touch $LOGFILE
 
 echo "=================================================" >> $LOGFILE
-echo "`date +%H:%M:%S`: Starting Pre-release checks" >> $LOGFILE
+echo "`date +%H:%M:%S`: Initiating Pre-release checks" >> $LOGFILE
 echo "=================================================" >> $LOGFILE
 
 source /home/zaidi/anaconda3/bin/activate >> $LOGFILE

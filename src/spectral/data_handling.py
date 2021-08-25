@@ -31,10 +31,18 @@ class DataArray:
     
     Fields:
     -------
-    nperseg: int
-        number of samples used per fft when stft is performed
-    noverlap: int
-        number of samples of oveerlap in stft    
+    data: numpy.ndarray
+        numpy array with timeseries data shaped (nchannels x timepoints x ntrials)
+    dtype: np.dtype
+        the data type in the data array (usually np.float64)
+    fs: int
+        the sampling frequency of the timeseries data
+    ntrials: int
+        number of trials in data (computed from 'data' unless simulate=True)
+    nchannels: int
+        number of channels in the data (computed from 'data' unless simulate=True)
+    simulate: bool (default=False)
+        Flag that causes the class to generate synthetic data if True.
     """
 
     data: np.ndarray = np.empty((1, 1, 1), dtype=np.float)

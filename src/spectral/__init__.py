@@ -21,4 +21,4 @@ Author: Ali Zaidi
 Version 0.1
 """
 
-from . import contrast, classify, cluster, data_handling
+from . import data_handling, contrast, classify, cluster

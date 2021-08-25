@@ -31,7 +31,7 @@ install:
   - python setup.py install
 
 script:
-  - pytest --cov # will run all tests in the package
+  - pytest # will run all tests in the package
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

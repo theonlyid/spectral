@@ -58,10 +58,18 @@ class DataArray:
     
     Fields:
     -------
-    nperseg: int
-        number of samples used per fft when stft is performed
-    noverlap: int
-        number of samples of oveerlap in stft    
+    data: numpy.ndarray
+        numpy array with timeseries data shaped (nchannels x timepoints x ntrials)
+    dtype: np.dtype
+        the data type in the data array (usually np.float64)
+    fs: int
+        the sampling frequency of the timeseries data
+    ntrials: int
+        number of trials in data (computed from &#39;data&#39; unless simulate=True)
+    nchannels: int
+        number of channels in the data (computed from &#39;data&#39; unless simulate=True)
+    simulate: bool (default=False)
+        Flag that causes the class to generate synthetic data if True.
     &#34;&#34;&#34;
 
     data: np.ndarray = np.empty((1, 1, 1), dtype=np.float)
@@ -196,15 +204,23 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="spectral.data_handling.DataArray"><code class="flex name class">
 <span>class <span class="ident">DataArray</span></span>
-<span>(</span><span>data: numpy.ndarray = array([[[1.14472989]]]), dtype: numpy.dtype = numpy.float64, fs: int = 100, nchannels: int = 1, ntrials: int = 1, simulate: bool = False)</span>
+<span>(</span><span>data: numpy.ndarray = array([[[0.0078125]]]), dtype: numpy.dtype = numpy.float64, fs: int = 100, nchannels: int = 1, ntrials: int = 1, simulate: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Object that stores the timeseries data and relevant parameters:</p>
 <h2 id="fields">Fields:</h2>
-<p>nperseg: int
-number of samples used per fft when stft is performed
-noverlap: int
-number of samples of oveerlap in stft</p></div>
+<p>data: numpy.ndarray
+numpy array with timeseries data shaped (nchannels x timepoints x ntrials)
+dtype: np.dtype
+the data type in the data array (usually np.float64)
+fs: int
+the sampling frequency of the timeseries data
+ntrials: int
+number of trials in data (computed from 'data' unless simulate=True)
+nchannels: int
+number of channels in the data (computed from 'data' unless simulate=True)
+simulate: bool (default=False)
+Flag that causes the class to generate synthetic data if True.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -215,10 +231,18 @@ number of samples of oveerlap in stft</p></div>
     
     Fields:
     -------
-    nperseg: int
-        number of samples used per fft when stft is performed
-    noverlap: int
-        number of samples of oveerlap in stft    
+    data: numpy.ndarray
+        numpy array with timeseries data shaped (nchannels x timepoints x ntrials)
+    dtype: np.dtype
+        the data type in the data array (usually np.float64)
+    fs: int
+        the sampling frequency of the timeseries data
+    ntrials: int
+        number of trials in data (computed from &#39;data&#39; unless simulate=True)
+    nchannels: int
+        number of channels in the data (computed from &#39;data&#39; unless simulate=True)
+    simulate: bool (default=False)
+        Flag that causes the class to generate synthetic data if True.
     &#34;&#34;&#34;
 
     data: np.ndarray = np.empty((1, 1, 1), dtype=np.float)
