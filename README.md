@@ -237,8 +237,7 @@ Beyond this, ignoring an entire folder is very easy. Create a text document titl
 
 The modules have documentation in HTML and PDF format in the docs folder. There are also example notebooks. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/html/index.html.
 
-For a quick overview of documentation while browsing the repo online, the PDF
-version can be accessed from [docs/spectral/documentation.pdf](docs/documentation.pdf).
+When browsing the repo online, the HTML documenation can be viewed online by using [Gihub's HTML Preview](https://htmlpreview.github.io/?https://github.com/theonlyid/spectral/blob/develop/docs/html/spectral/index.html)
 
 ### Example notebooks
 
