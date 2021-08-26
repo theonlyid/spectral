@@ -18,6 +18,7 @@ before_install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
+  - conda install python=3.8.5
   - conda info -a
 
 
@@ -26,12 +27,12 @@ install:
   # We just set up a conda environment with the right Python version.
   # This should not need changing.
 
-  - travis_wait 2 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
-  - python3 setup.py install
+  - python3.8 setup.py install
 
 script:
-  - python3 -m pytest # will run all tests in the package
+  - python3.8 -m pytest # will run all tests in the package
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
