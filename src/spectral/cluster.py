@@ -8,7 +8,7 @@ This facilitates the identification of various events (defined as transient spat
 """
 
 from scipy.signal import stft
-from umap import UMAP
+# from umap import UMAP
 import numpy as np
 from sklearn.cluster import OPTICS, cluster_optics_dbscan
 from sklearn.metrics import calinski_harabasz_score
@@ -69,24 +69,24 @@ def stft_norm(data, **kwargs):
     return data_stft_norm, t
 
 
-def embed(data_stft_norm, **kwargs):
-    """
-    Returns a low-dimensional embedding of an STFT array.
+# def embed(data_stft_norm, **kwargs):
+#     """
+#     Returns a low-dimensional embedding of an STFT array.
     
-    Parameters
-    -----------
-    data_norm: array
-        normalized stft array [nchan x nfreqs x nobs x ntrials]
+#     Parameters
+#     -----------
+#     data_norm: array
+#         normalized stft array [nchan x nfreqs x nobs x ntrials]
        
-    Returns
-    -------
-    embedding: array
-        low dimensional embedding of the STFT array
-    """
+#     Returns
+#     -------
+#     embedding: array
+#         low dimensional embedding of the STFT array
+#     """
 
-    manifold = UMAP(min_dist=0.0001)
-    embedding = manifold.fit_transform(data_stft_norm.T)
-    return embedding
+#     manifold = UMAP(min_dist=0.0001)
+#     embedding = manifold.fit_transform(data_stft_norm.T)
+#     return embedding
 
 
 def cluster(data, **kwargs):
