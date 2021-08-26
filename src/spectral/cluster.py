@@ -8,6 +8,7 @@ This facilitates the identification of various events (defined as transient spat
 """
 
 from scipy.signal import stft
+
 # from umap import UMAP
 import numpy as np
 from sklearn.cluster import OPTICS, cluster_optics_dbscan
@@ -72,12 +73,12 @@ def stft_norm(data, **kwargs):
 # def embed(data_stft_norm, **kwargs):
 #     """
 #     Returns a low-dimensional embedding of an STFT array.
-    
+
 #     Parameters
 #     -----------
 #     data_norm: array
 #         normalized stft array [nchan x nfreqs x nobs x ntrials]
-       
+
 #     Returns
 #     -------
 #     embedding: array

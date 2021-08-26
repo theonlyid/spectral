@@ -38,7 +38,8 @@ This facilitates the identification of various events (defined as transient spat
 &#34;&#34;&#34;
 
 from scipy.signal import stft
-from umap import UMAP
+
+# from umap import UMAP
 import numpy as np
 from sklearn.cluster import OPTICS, cluster_optics_dbscan
 from sklearn.metrics import calinski_harabasz_score
@@ -99,24 +100,24 @@ def stft_norm(data, **kwargs):
     return data_stft_norm, t
 
 
-def embed(data_stft_norm, **kwargs):
-    &#34;&#34;&#34;
-    Returns a low-dimensional embedding of an STFT array.
-    
-    Parameters
-    -----------
-    data_norm: array
-        normalized stft array [nchan x nfreqs x nobs x ntrials]
-       
-    Returns
-    -------
-    embedding: array
-        low dimensional embedding of the STFT array
-    &#34;&#34;&#34;
+# def embed(data_stft_norm, **kwargs):
+#     &#34;&#34;&#34;
+#     Returns a low-dimensional embedding of an STFT array.
 
-    manifold = UMAP(min_dist=0.0001)
-    embedding = manifold.fit_transform(data_stft_norm.T)
-    return embedding
+#     Parameters
+#     -----------
+#     data_norm: array
+#         normalized stft array [nchan x nfreqs x nobs x ntrials]
+
+#     Returns
+#     -------
+#     embedding: array
+#         low dimensional embedding of the STFT array
+#     &#34;&#34;&#34;
+
+#     manifold = UMAP(min_dist=0.0001)
+#     embedding = manifold.fit_transform(data_stft_norm.T)
+#     return embedding
 
 
 def cluster(data, **kwargs):
@@ -178,7 +179,7 @@ def cluster(data, **kwargs):
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>data_array</code></strong> :&ensp;<code>array</code></dt>
-<dd>STFT array or low-dimensional embedding from <code><a title="spectral.cluster.embed" href="#spectral.cluster.embed">embed()</a></code> [nchan x nobs x ntrials]</dd>
+<dd>STFT array or low-dimensional embedding from <code>embed()</code> [nchan x nobs x ntrials]</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -233,45 +234,6 @@ def cluster(data, **kwargs):
     nclust = np.unique(ncl)
 
     return res, nclust</code></pre>
-</details>
-</dd>
-<dt id="spectral.cluster.embed"><code class="name flex">
-<span>def <span class="ident">embed</span></span>(<span>data_stft_norm, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns a low-dimensional embedding of an STFT array.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>data_norm</code></strong> :&ensp;<code>array</code></dt>
-<dd>normalized stft array [nchan x nfreqs x nobs x ntrials]</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>embedding</code></strong> :&ensp;<code>array</code></dt>
-<dd>low dimensional embedding of the STFT array</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def embed(data_stft_norm, **kwargs):
-    &#34;&#34;&#34;
-    Returns a low-dimensional embedding of an STFT array.
-    
-    Parameters
-    -----------
-    data_norm: array
-        normalized stft array [nchan x nfreqs x nobs x ntrials]
-       
-    Returns
-    -------
-    embedding: array
-        low dimensional embedding of the STFT array
-    &#34;&#34;&#34;
-
-    manifold = UMAP(min_dist=0.0001)
-    embedding = manifold.fit_transform(data_stft_norm.T)
-    return embedding</code></pre>
 </details>
 </dd>
 <dt id="spectral.cluster.stft_norm"><code class="name flex">
@@ -375,7 +337,6 @@ def cluster(data, **kwargs):
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="spectral.cluster.cluster" href="#spectral.cluster.cluster">cluster</a></code></li>
-<li><code><a title="spectral.cluster.embed" href="#spectral.cluster.embed">embed</a></code></li>
 <li><code><a title="spectral.cluster.stft_norm" href="#spectral.cluster.stft_norm">stft_norm</a></code></li>
 </ul>
 </li>
