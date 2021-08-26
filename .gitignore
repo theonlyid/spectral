@@ -4,6 +4,9 @@ __pycache*
 .pytest_*
 build/
 
+# Travis
+.travis*
+
 # logs
 logs/
 
