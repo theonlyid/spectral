@@ -4,8 +4,8 @@ matrix:
   include:
     # - python: 3.5
     # - python: 3.6
-    # - python: 3.7
-    - python: 3.8
+    - python: 3.7
+    # - python: 3.8
 
 before_install:
 
@@ -18,7 +18,7 @@ before_install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   # - conda update conda --no-deps
-  - conda info -a
+  # - conda info -a
 
 
 install:
@@ -28,8 +28,8 @@ install:
 
   - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
-  - python --version
   - python setup.py install
+  - conda info
 
 script:
   - pytest # will run all tests in the package
