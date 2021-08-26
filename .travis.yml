@@ -26,9 +26,9 @@ install:
   # We just set up a conda environment with the right Python version.
   # This should not need changing.
 
-  - travis_wait 60 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - travis_wait 2 conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
-  - python setup.py install
+  - python3 setup.py install
 
 script:
   - python3 -m pytest # will run all tests in the package
