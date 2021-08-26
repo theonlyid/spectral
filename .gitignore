@@ -5,7 +5,7 @@ __pycache*
 build/
 
 # Travis
-.travis*
+.travis.yml
 
 # logs
 logs/
