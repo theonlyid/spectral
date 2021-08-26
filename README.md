@@ -1,12 +1,12 @@
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![](https://img.shields.io/badge/Anaconda-3.7-blue)
-![Version: 1.0](https://img.shields.io/badge/Version-1.0-green)
+![Version: 0.1](https://img.shields.io/badge/Version-0.1-green)
 [![Build Status](https://travis-ci.com/theonlyid/spectral.svg?branch=master)](https://travis-ci.com/theonlyid/spectral)
 [![codecov](https://codecov.io/gh/theonlyid/spectral/branch/master/graph/badge.svg?token=0Y4MS7INZV)](https://codecov.io/gh/theonlyid/spectral)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theonlyid/spectral/master)
 
-# Spectral: a toolbox for neural timeseries analysis (v1.0)
+# Spectral: a toolbox for neural timeseries analysis (v0.1)
 
 ## Table of contents
 
@@ -16,15 +16,15 @@
 
 2. [The Where](#where): folder organisation and structure
 
-3. [The How](#how): installation, execution
+3. [Documentation](#docs)
 
-    3.1 [Installation and setup](#install)
+4. [The How](#how): installation and use
+
+    3.1 [Installation](#install)
 
     3.2 [Using the modules](#usemodules)
 
-4. [Repository settings](#repo-settings)
-
-5. [Documentation](#docs)
+5. [Repository settings](#repo-settings)
 
 6. [FAQS](#faqs)
 
@@ -42,9 +42,19 @@ The root directory has two subdirs: src and docs.
 
 **docs** houses all documentation. Each module has its own sub-directory.
 
-## 3. The How <a name='how'></a>
+## 3. Documentation <a name="docs"></a>
 
-### 3.1 Installation and setup <a name='install'></a>
+The documentation exists in HTML in the docs folder. When browsing the repo online, the HTML documenation can be viewed online by using [Gihub's HTML Preview](https://htmlpreview.github.io/?https://github.com/theonlyid/spectral/blob/develop/docs/html/spectral/index.html).
+
+There are also example notebooks in the docs folder. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/html/index.html.
+
+### Example notebooks
+
+Post installation, a good place to start is example notebooks. They can be found in the docs, within the subfolder for each module. The notebooks can be found [here](/docs/notebooks/).
+
+## 4. The How <a name='how'></a>
+
+### 4.1 Installation and setup <a name='install'></a>
 
 #### Installing Anaconda <a name='installanaconda'></a>
 
@@ -216,7 +226,7 @@ This will return a matrix with the shape of the original data but band-pass filt
 
 ________
 
-## 4. Repository settings: Adding files and folders <a name="repo-settings"></a>
+## 5. Repository settings: Adding files and folders <a name="repo-settings"></a>
 
 ### Adding untracked local files and folders <a name="custom"></a>
 
@@ -232,16 +242,6 @@ Open [gitignore](.gitignore) for a complete list of files/folders ignored.
 Some folders are ignored by default, such as any folder titled "data". You can place your data files here without them being tracked and added to the repo.
 
 Beyond this, ignoring an entire folder is very easy. Create a text document titled ".gitignore" and add the asterisk (*) symbol in the document and save it. This will ignore the entire folder. Any folders, files, etc in such folders will not be tracked.
-
-## 5. Documentation <a name="docs"></a>
-
-The modules have documentation in HTML and PDF format in the docs folder. There are also example notebooks. The best way to access the documentation is by cloning the repo and opening the HTML documentation in docs/html/index.html.
-
-When browsing the repo online, the HTML documenation can be viewed online by using [Gihub's HTML Preview](https://htmlpreview.github.io/?https://github.com/theonlyid/spectral/blob/develop/docs/html/spectral/index.html)
-
-### Example notebooks
-
-Post installation, a good place to start is example notebooks. They can be found in the docs, within the subfolder for each module. The notebooks can be found [here](/docs/notebooks/).
 
 ## 6. FAQS <a name="faqs"></a>
 
@@ -260,6 +260,6 @@ Post installation, a good place to start is example notebooks. They can be found
 3. The contrast() function fails: Out of Memory Error
 
     Looks like you're crunching big numbers!
-    The contrasting algorithm converts the timeseries to frequency. It then loops over every combination of frequencies to find the snr. If you use a very high nobs, and a high nperseg, squaring that data will lead to memory issues. Try reducing the nperseg to 64 or even 32. This will reduce the frequency resolution, unfortunately.
+    The contrasting algorithm converts the timeseries to frequency. It then loops over every combination of frequencies to find the snr. If you use large ```nobs``` and ```nperseg```, squaring that data will lead to memory issues. Try reducing the nperseg to 64 or even 32. This will, however, reduce the frequency resolution.
 
-##### This code is maintained by Ali Zaidi (azaidi(at)tue(dot)mpg(dot)de)
+##### This code is maintained by Ali Zaidi (azaidi [at] tue [dot] mpg [dot] de)
