@@ -28,6 +28,7 @@ install:
 
   - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
+  - python --version
   - python setup.py install
 
 script:
