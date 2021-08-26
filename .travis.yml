@@ -17,8 +17,7 @@ before_install:
   - export PATH=$HOME/miniconda/bin:$PATH
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda install python=3.8.5
+  - conda update conda --no-deps
   - conda info -a
 
 
@@ -29,10 +28,10 @@ install:
 
   - conda env update --name spectral --file ./src/deps/environment.yml python=$TRAVIS_PYTHON_VERSION
   - source activate spectral
-  - python3.8 setup.py install
+  - python setup.py install
 
 script:
-  - python3.8 -m pytest # will run all tests in the package
+  - pytest # will run all tests in the package
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
