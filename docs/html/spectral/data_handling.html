@@ -111,16 +111,20 @@ class DataArray:
         np.random.seed = seed
         n = np.exp(1j * (2 * np.pi * np.random.rand(nsamples,)))
         n[0] = 0
-        # n *= 100 # make the spectrum stronger
+        n *= 100  # make the spectrum stronger
 
-        # Add some LFP-like components
+        # Add some LFP-like components (:TODO:)
+        # mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
+        # n = n - min(np.real(n))
+        # mean = np.random.randint(10, len(f))
+        # var = 3 * len(f) / mean
+        # n_new = n + [mix(i, mean, var) for i in range(len(n))]
+        # n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
 
-        mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
-        n = n - min(np.real(n))
-        mean = np.random.randint(10, len(f))
-        var = 3 * len(f) / mean
-        n_new = n + [mix(i, mean, var) for i in range(len(n))]
-        n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
+        # Take a random part of the signal and amplify it
+        peak = np.random.random()
+        idx_enhanced = int(len(f) * peak)
+        n[idx_enhanced] *= 100
 
         # generate the timeseries
         s = np.real(np.fft.ifft(n))
@@ -284,16 +288,20 @@ Flag that causes the class to generate synthetic data if True.</p></div>
         np.random.seed = seed
         n = np.exp(1j * (2 * np.pi * np.random.rand(nsamples,)))
         n[0] = 0
-        # n *= 100 # make the spectrum stronger
+        n *= 100  # make the spectrum stronger
 
-        # Add some LFP-like components
+        # Add some LFP-like components (:TODO:)
+        # mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
+        # n = n - min(np.real(n))
+        # mean = np.random.randint(10, len(f))
+        # var = 3 * len(f) / mean
+        # n_new = n + [mix(i, mean, var) for i in range(len(n))]
+        # n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
 
-        mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
-        n = n - min(np.real(n))
-        mean = np.random.randint(10, len(f))
-        var = 3 * len(f) / mean
-        n_new = n + [mix(i, mean, var) for i in range(len(n))]
-        n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
+        # Take a random part of the signal and amplify it
+        peak = np.random.random()
+        idx_enhanced = int(len(f) * peak)
+        n[idx_enhanced] *= 100
 
         # generate the timeseries
         s = np.real(np.fft.ifft(n))
@@ -386,16 +394,20 @@ def generate_ts(cls, fs: int = 100, nsamples: int = 1000, **kwargs) -&gt; np.nda
     np.random.seed = seed
     n = np.exp(1j * (2 * np.pi * np.random.rand(nsamples,)))
     n[0] = 0
-    # n *= 100 # make the spectrum stronger
+    n *= 100  # make the spectrum stronger
 
-    # Add some LFP-like components
+    # Add some LFP-like components (:TODO:)
+    # mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
+    # n = n - min(np.real(n))
+    # mean = np.random.randint(10, len(f))
+    # var = 3 * len(f) / mean
+    # n_new = n + [mix(i, mean, var) for i in range(len(n))]
+    # n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
 
-    mix = lambda x, mean, var: 5 * math.exp(-((x - mean) ** 2) / (2 * var ** 2))
-    n = n - min(np.real(n))
-    mean = np.random.randint(10, len(f))
-    var = 3 * len(f) / mean
-    n_new = n + [mix(i, mean, var) for i in range(len(n))]
-    n_new[1:] = np.array(n_new[1:]) / np.arange(len(n))[1:]
+    # Take a random part of the signal and amplify it
+    peak = np.random.random()
+    idx_enhanced = int(len(f) * peak)
+    n[idx_enhanced] *= 100
 
     # generate the timeseries
     s = np.real(np.fft.ifft(n))
