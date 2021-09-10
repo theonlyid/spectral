@@ -21,18 +21,18 @@ def contrast(ds: Dataset, y: list, debug=False, **kwargs):
     Parameters
     ----------
     ds: Dataset object
-        an instance of Dataset containing LFP data and relevant parameters for signal processing.
-        See 'Dataset' class in data_handling.py for more information.
+        an instance of `spectral.data_handling.Dataset` containing LFP data and relevant parameters for signal processing.
     y: list [ntrials]
         a binary vector with a label for each trial being either 0 or 1
         
-    **DEBUG: param (bool)
+    debug: param (bool)
         Flag for printing debugging output
         
     Returns
     -------
     snr: array [nfreqs x nfreqs]
-        a matrix with the SNR for each combination of frequency bands
+        a matrix with the SNR for each combination of frequency bands starting from lowest frequency in f to the highest.
+        The first axis represents the start band the second axis represents the stop band.
     f: array [nfreqs]
         a vector that represents the frequencies for interpreting `snr`.
     """
