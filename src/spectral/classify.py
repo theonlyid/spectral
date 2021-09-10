@@ -11,7 +11,7 @@ present within the timeseries data, that have been identified.
 import sklearn
 import numpy as np
 
-from spectral.data_handling import Dataset, TsParams, DataArray, main
+from spectral.data_handling import Dataset, TsParams, DataArray
 
 
 def generate_features(ds: Dataset, labels: list, log_transform: bool = True, **kwargs):
@@ -113,8 +113,10 @@ def classifySVM(self, X, y):
 
     return scores, clf
 
+
 def main():
     pass
+
 
 if __name__ == "__main__":
     main()
