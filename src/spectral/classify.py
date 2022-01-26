@@ -10,19 +10,20 @@ present within the timeseries data, that have been identified.
 
 import sklearn
 import numpy as np
-import scipy
+
+from spectral.data_handling import Dataset, TsParams, DataArray
 
 
-def generate_features(data, labels, **kwargs):
+def generate_features(ds: Dataset, labels: list, log_transform: bool = True, **kwargs):
     """
     Generate a feature vector for training a classifier
     
     Parameters
     ----------
-    data: array
-        array with structure
+    data: Dataset object
+        Dataset object generated using `spectral.data_handling.Dataset`
     labels: array
-        vector with class labels
+        vector with class labels for each trial
         
     Returns
     -------
@@ -31,7 +32,8 @@ def generate_features(data, labels, **kwargs):
     y: array
         a vector with the same number of rows as X containing class labels
     """
-    data_array = np.array([])
+
+    data = ds.data_array.data
 
     for trial in range(data.shape[-1]):
         for tbin in range(data.shape[-2]):  # Each timebin
@@ -46,7 +48,7 @@ def generate_features(data, labels, **kwargs):
                 ],
             )
 
-    if "log_transform" in kwargs.items():
+    if log_transform:
         data_array = np.log(np.reshape(data_array, (-1, 30)))
     else:
         data_array = np.reshape(data_array, (-1, 30))
@@ -110,3 +112,11 @@ def classifySVM(self, X, y):
     )
 
     return scores, clf
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()

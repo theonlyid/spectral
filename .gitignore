@@ -3,12 +3,21 @@ __pycache*
 .ipynb_*
 .pytest_*
 build/
+# Python egg
+*.egg-info/
+dist/
 
 # Travis
 .travis.yml
 
 # logs
 logs/
+
+# VS Code
+.vscode
+
+# OSX
+.DS_Store
 
 # Image files
 *.eps
@@ -25,11 +34,15 @@ logs/
 *.mlx
 
 # Any data folders
-data
+neuraldata/
+data/
 
 # Temporary files starting with temp_
 temp_*
 tmp_*
+*.tmp
+temp*/
+
 
 # User specific files
 Matlab.bat

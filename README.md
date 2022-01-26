@@ -56,20 +56,62 @@ Post installation, a good place to start is example notebooks. They can be found
 
 ### 4.1 Installation and setup <a name='install'></a>
 
-#### Installing Anaconda <a name='installanaconda'></a>
+#### Installing Miniconda <a name='installconda'></a>
 
-Install [Anaconda 3.7](https://docs.anaconda.com/anaconda/packages/py3.7_win-64/) by clicking the link and following the default setup instructions.
+Install [Miniconda 3.7](https://docs.conda.io/en/latest/miniconda.html) by clicking the link,
+scrolling to your OS and searching for the miniconda 3.7 link. Follow the default setup instructions.
+
+<p>
+**Make sure your default python is Python3.7**
 
 #### Installing Spectral
 
+It is recommended to install the package in it's own environment. Follow the steps below"
+
+<ol>
+
+<li> Create the environment using the environment.yml file in src/deps
+
+```bash
+$ conda env create -f=/src/deps/environment.yml
+```
+</li>
+
+<li>
+Activate the environment using 
+
+```bash
+$ conda activate spectral
+```
+</li>
+
+<li>
 Install the package using setup.py:
 
 ```bash
 $ python setup.py install
+```
+</li>
 
+<li>
+Test the installation by running pytest
+
+```bash
+$ pytest
+```
+</li>
+
+<li>
+You can now use the package through python
+
+```bash
 $ python
 >> import spectral
+>> spectral?
 ```
+
+</li>
+</ol>
 
 *Note: in case you will use the module with Matlab,
 it is advised to install the package in the base conda environment.
@@ -262,4 +304,4 @@ Beyond this, ignoring an entire folder is very easy. Create a text document titl
     Looks like you're crunching big numbers!
     The contrasting algorithm converts the timeseries to frequency. It then loops over every combination of frequencies to find the snr. If you use large ```nobs``` and ```nperseg```, squaring that data will lead to memory issues. Try reducing the nperseg to 64 or even 32. This will, however, reduce the frequency resolution.
 
-##### This code is maintained by Ali Zaidi (azaidi [at] tue [dot] mpg [dot] de)
+##### This code is maintained by Ali Zaidi (danishze [at] gmail [dot] com)

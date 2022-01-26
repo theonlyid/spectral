@@ -41,19 +41,20 @@ present within the timeseries data, that have been identified.
 
 import sklearn
 import numpy as np
-import scipy
+
+from spectral.data_handling import Dataset, TsParams, DataArray
 
 
-def generate_features(data, labels, **kwargs):
+def generate_features(ds: Dataset, labels: list, log_transform: bool = True, **kwargs):
     &#34;&#34;&#34;
     Generate a feature vector for training a classifier
     
     Parameters
     ----------
-    data: array
-        array with structure
+    data: Dataset object
+        Dataset object generated using `spectral.data_handling.Dataset`
     labels: array
-        vector with class labels
+        vector with class labels for each trial
         
     Returns
     -------
@@ -62,7 +63,8 @@ def generate_features(data, labels, **kwargs):
     y: array
         a vector with the same number of rows as X containing class labels
     &#34;&#34;&#34;
-    data_array = np.array([])
+
+    data = ds.data_array.data
 
     for trial in range(data.shape[-1]):
         for tbin in range(data.shape[-2]):  # Each timebin
@@ -77,7 +79,7 @@ def generate_features(data, labels, **kwargs):
                 ],
             )
 
-    if &#34;log_transform&#34; in kwargs.items():
+    if log_transform:
         data_array = np.log(np.reshape(data_array, (-1, 30)))
     else:
         data_array = np.reshape(data_array, (-1, 30))
@@ -140,7 +142,15 @@ def classifySVM(self, X, y):
         % (scores.mean(), scores.std() * 2)
     )
 
-    return scores, clf</code></pre>
+    return scores, clf
+
+
+def main():
+    pass
+
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
 </details>
 </section>
 <section>
@@ -229,16 +239,16 @@ def classifySVM(self, X, y):
 </details>
 </dd>
 <dt id="spectral.classify.generate_features"><code class="name flex">
-<span>def <span class="ident">generate_features</span></span>(<span>data, labels, **kwargs)</span>
+<span>def <span class="ident">generate_features</span></span>(<span>ds: <a title="spectral.data_handling.Dataset" href="data_handling.html#spectral.data_handling.Dataset">Dataset</a>, labels: list, log_transform: bool = True, **kwargs)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Generate a feature vector for training a classifier</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
-<dd>array with structure</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>Dataset object</code></dt>
+<dd>Dataset object generated using <code><a title="spectral.data_handling.Dataset" href="data_handling.html#spectral.data_handling.Dataset">Dataset</a></code></dd>
 <dt><strong><code>labels</code></strong> :&ensp;<code>array</code></dt>
-<dd>vector with class labels</dd>
+<dd>vector with class labels for each trial</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -251,16 +261,16 @@ def classifySVM(self, X, y):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def generate_features(data, labels, **kwargs):
+<pre><code class="python">def generate_features(ds: Dataset, labels: list, log_transform: bool = True, **kwargs):
     &#34;&#34;&#34;
     Generate a feature vector for training a classifier
     
     Parameters
     ----------
-    data: array
-        array with structure
+    data: Dataset object
+        Dataset object generated using `spectral.data_handling.Dataset`
     labels: array
-        vector with class labels
+        vector with class labels for each trial
         
     Returns
     -------
@@ -269,7 +279,8 @@ def classifySVM(self, X, y):
     y: array
         a vector with the same number of rows as X containing class labels
     &#34;&#34;&#34;
-    data_array = np.array([])
+
+    data = ds.data_array.data
 
     for trial in range(data.shape[-1]):
         for tbin in range(data.shape[-2]):  # Each timebin
@@ -284,7 +295,7 @@ def classifySVM(self, X, y):
                 ],
             )
 
-    if &#34;log_transform&#34; in kwargs.items():
+    if log_transform:
         data_array = np.log(np.reshape(data_array, (-1, 30)))
     else:
         data_array = np.reshape(data_array, (-1, 30))
@@ -293,6 +304,19 @@ def classifySVM(self, X, y):
     y = np.ones(data_array.shape[0]) * labels
 
     return X, y</code></pre>
+</details>
+</dd>
+<dt id="spectral.classify.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    pass</code></pre>
 </details>
 </dd>
 </dl>
@@ -315,6 +339,7 @@ def classifySVM(self, X, y):
 <ul class="">
 <li><code><a title="spectral.classify.classifySVM" href="#spectral.classify.classifySVM">classifySVM</a></code></li>
 <li><code><a title="spectral.classify.generate_features" href="#spectral.classify.generate_features">generate_features</a></code></li>
+<li><code><a title="spectral.classify.main" href="#spectral.classify.main">main</a></code></li>
 </ul>
 </li>
 </ul>
